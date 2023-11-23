@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public enum GameStage
 {
@@ -29,11 +29,10 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Color Bot;
     [SerializeField] private Color Left;
     [SerializeField] private Color Right;
+    [SerializeField] private Color EndGoal;
 
     private List<Color> Colors = new List<Color>();
-
-    [SerializeField] private int ColorIndex = 0;
-    [SerializeField] private float min = 0.5f;
+    private int ColorIndex = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -59,36 +58,29 @@ public class GameManager : Singleton<GameManager>
         movement.OnUpdate -= handlePlayerMovement;
     }
 
-    private void handlePlayerMovement(float rotation, float[] distance)
+    private void handlePlayerMovement(float rotation, float[] distance, GameObject FirstHit)
     {
         ColorIndex = (int)rotation / 90;
-        updateColor(distance);
+
+        if (FirstHit.tag == "Finish")
+            UpdateColor(distance, EndGoal);
+        else
+            UpdateColor(distance, GetColor(ColorIndex));
     }
 
-    Color getColor(int index)
+    Color GetColor(int index)
     {
         if (index == -1)
             return Colors[Colors.Count - 1];
         return Colors[index % Colors.Count];
     }
 
-    private void updateColor(float[] distance)
+    private void UpdateColor(float[] distance, Color main)
     {
-        //Camera.main.backgroundColor = ColorDirection * (distance / 10 * (1-min) + min);
-
-        //LightController.Instance.Middle.color = ColorDirection;
-        Debug.Log(String.Join(", ",distance));
-        LightController.Instance.Left.color = getColor(ColorIndex+1) * CalcColorDistance(distance[0]);
-        LightController.Instance.Middle.color = getColor(ColorIndex) * CalcColorDistance(distance[1]);
-        LightController.Instance.Right.color = getColor(ColorIndex-1) * CalcColorDistance(distance[2]);
+        LightController.Instance.updateLeft(GetColor(ColorIndex + 1), distance[0]);
+        LightController.Instance.updateMiddle(main, distance[1]);
+        LightController.Instance.updateRight(GetColor(ColorIndex - 1), distance[2]);
     }
-
-    private float CalcColorDistance(float distance) {
-        return ((1 - Mathf.Pow(0.7f, distance)) * (1 - min)) + min;
-        
-        //return (distance / 10 * (1 - min)) + min; 
-    }
-
 
     public void SetGameStage(GameStage newGameStage)
     {
@@ -105,7 +97,13 @@ public class GameManager : Singleton<GameManager>
         switch (oldGameStage)
         {
             case GameStage.Gameplay:
-                //MazeGenerator.Instance.clear();
+                MazeGenerator.Instance.clear();
+                break;
+
+            case GameStage.EndGame:
+                MenuManager.Instance.EndMenu.SetActive(false);
+                break;
+            case GameStage.Menu:
                 break;
         }
     }
@@ -119,17 +117,13 @@ public class GameManager : Singleton<GameManager>
             case GameStage.Gameplay:
                 initStage();
                 break;
+
+            case GameStage.EndGame:
+                MenuManager.Instance.EndMenu.SetActive(true);
+                break;
+            case GameStage.Menu: 
+                break;
         }
-    }
-
-    private RaycastHit2D RayCast()
-    {
-        return Physics2D.Raycast(transform.position, transform.up);
-    }
-
-    private Collider2D CheckForward()
-    {
-        return Physics2D.Raycast(transform.position, transform.up).collider;
     }
 
     private void initStage()
@@ -147,8 +141,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            
             initStage();
-        }
+        } 
     }
 }
