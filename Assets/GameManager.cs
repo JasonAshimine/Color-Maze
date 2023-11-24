@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public enum GameStage
@@ -74,8 +75,11 @@ public class GameManager : Singleton<GameManager>
     {
         LightController.Instance.updateMiddle(forwardColor, distance[1]);
 
-        LightController.Instance.updateLeft(ColorManager.Instance.GetColor(ColorIndex + 1), distance[0]);
-        LightController.Instance.updateRight(ColorManager.Instance.GetColor(ColorIndex - 1), distance[2]);
+        Color left = ColorManager.Instance.GetColor(ColorIndex + 1);
+        Color right = ColorManager.Instance.GetColor(ColorIndex - 1);
+
+        LightController.Instance.updateLeft(left, distance[0]);
+        LightController.Instance.updateRight(right, distance[2]);
     }
 
     public void SetGameStage(GameStage newGameStage)
@@ -121,6 +125,8 @@ public class GameManager : Singleton<GameManager>
 
     public void OnEnterStage(GameStage newGameStage)
     {
+        Debug.Log(newGameStage);
+
         GameStateChangeEvent?.Invoke();
 
         switch (newGameStage)
@@ -147,6 +153,28 @@ public class GameManager : Singleton<GameManager>
 
         Player = Instantiate(PlayerPrefab, MazeGenerator.Instance.start.transform.position, Quaternion.identity, MazeGenerator.Instance.transform);
         Instantiate(EndPrefab, MazeGenerator.Instance.end.transform.position, Quaternion.identity, MazeGenerator.Instance.transform);
+    }
+
+    public Light2D getLight(colorTypes id)
+    {
+        switch (id)
+        {
+            case colorTypes.Left: return LightController.Instance.Left;
+            case colorTypes.Right: return LightController.Instance.Right;
+            case colorTypes.Center: return LightController.Instance.Middle;
+        }
+        return null;
+    }
+
+    public bool toggleLight(colorTypes id)
+    {
+        GameObject obj = getLight(id)?.gameObject;
+
+        if (obj == null)
+            return true;
+
+        obj.SetActive(!obj.activeSelf);
+        return obj.activeSelf;
     }
 
     void PauseGame()

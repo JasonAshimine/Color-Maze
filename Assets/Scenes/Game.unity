@@ -912,6 +912,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3318419227877403095, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
+      propertyPath: OnChange.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3318419227877403095, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
+      propertyPath: OnChange.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3318419227877403095, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
+      propertyPath: OnChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 301131039}
+    - target: {fileID: 3318419227877403095, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
+      propertyPath: OnChange.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3318419227877403095, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
+      propertyPath: OnChange.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: updateSideColor
+      objectReference: {fileID: 0}
+    - target: {fileID: 3318419227877403095, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
+      propertyPath: OnChange.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ColorMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3318419227877403095, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
+      propertyPath: OnChange.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
 --- !u!1001 &5107060827738312504

@@ -13,13 +13,14 @@ public class ColorMenu : Singleton<ColorMenu>
 
     private colorTypes selected;
 
-    private Image selectedImage;
-
     [SerializeField] private Image Top;
     [SerializeField] private Image Bot;
     [SerializeField] private Image Left;
     [SerializeField] private Image Right;
     [SerializeField] private Image Center;
+
+    [SerializeField] private Image Side_Left;
+    [SerializeField] private Image Side_Right;
 
     public bool isButtons => Buttons.activeSelf;
     public bool isColorPalette => ColorPalette.activeSelf;
@@ -29,7 +30,11 @@ public class ColorMenu : Singleton<ColorMenu>
         Instance = this;
     }
 
-    
+ /*   private void OnEnable()
+    {
+        Side_Left.color = LightController.Instance.Left.color;
+        Side_Right.color = LightController.Instance.Right.color;
+    }*/
 
     public Image getImage(colorTypes id)
     {
@@ -54,6 +59,14 @@ public class ColorMenu : Singleton<ColorMenu>
         ColorMenuEvent.Invoke(selected, color);
     }
 
+    public void updateSideColor(colorTypes id, Color color)
+    {
+        if (id == colorTypes.Left)
+            Side_Left.color = color;
+        else if (id == colorTypes.Right)
+            Side_Right.color = color;
+    }
+
 
     public void updateColor(colorTypes id, Color color)
     {
@@ -65,8 +78,25 @@ public class ColorMenu : Singleton<ColorMenu>
     {
         openColorPaletteMenu();
 
-        selectedImage = obj;
         selected = ColorManager.getType(obj.gameObject);
+    }
+
+
+    public void handleSideButton(GameObject obj)
+    {
+        colorTypes type = ColorManager.getType(obj);
+        GameManager.Instance.toggleLight(type);
+
+/*        switch (type)
+        {
+            case colorTypes.Left:
+                GameManager.Instance.toggleLight(type);
+                break;
+            case colorTypes.Right:
+                break;
+        }*/
+
+        
     }
 
     public void handleButton(colorTypes id)

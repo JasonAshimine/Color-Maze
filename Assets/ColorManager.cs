@@ -17,7 +17,7 @@ public class ColorManager : Singleton<ColorManager>
 
 
     public UnityEvent<colorTypes, Color> ColorPickerEvent;
-    private colorTypes[] directions = new colorTypes[] { colorTypes.Top, colorTypes.Right, colorTypes.Bot, colorTypes.Left };
+    private colorTypes[] directions = new colorTypes[] { colorTypes.Top, colorTypes.Left, colorTypes.Bot, colorTypes.Right };
 
     private void Start()
     {
