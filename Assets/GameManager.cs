@@ -107,14 +107,14 @@ public class GameManager : Singleton<GameManager>
         switch (oldGameStage)
         {
             case GameStage.Gameplay:
-                MazeGenerator.Instance.clear();
+                
                 break;
 
             case GameStage.EndGame:
                 MenuManager.Instance.EndMenu.SetActive(false);
                 break;
             case GameStage.Menu:
-                MenuManager.Instance.gameObject.SetActive(false);
+                MenuManager.Instance.SettingMenu.SetActive(false);
                 ResumeGame();
                 break;
         }
@@ -131,10 +131,11 @@ public class GameManager : Singleton<GameManager>
                 break;
 
             case GameStage.EndGame:
+                MazeGenerator.Instance.clear();
                 MenuManager.Instance.EndMenu.SetActive(true);
                 break;
             case GameStage.Menu:
-                MenuManager.Instance.gameObject.SetActive(true);
+                MenuManager.Instance.SettingMenu.SetActive(true);
                 PauseGame();
                 break;
         }

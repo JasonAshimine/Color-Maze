@@ -33,11 +33,27 @@ public class ColorManager : Singleton<ColorManager>
         AddColor(colorTypes.Center, Center);
     }
 
+    public Color GetColor(colorTypes id)
+    {
+        switch (id)
+        {
+            case colorTypes.Top: return Top;
+            case colorTypes.Bot: return Bot;
+            case colorTypes.Left: return Left;
+            case colorTypes.Right: return Right;
+            case colorTypes.Center: return Center;
+            default:
+                Debug.Log(string.Format("Invalid id {0}", id));
+                return null;
+        }
+    }
+
 
     public void AddColor(colorTypes id, Color color)
     {
-        ColorList.Add(id, color);
-        ColorPickerEvent.Invoke(id, color);
+        if(ColorList.TryAdd(id, color))
+            ColorPickerEvent.Invoke(id, color);
+
     }
 
     public void UpdateColor(colorTypes id, Color color)

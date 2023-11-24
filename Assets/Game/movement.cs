@@ -61,13 +61,16 @@ public class movement : MonoBehaviour
     {
         dir = value.Get<Vector2>();
         
-        if(dir.x < 0)
+        if(Time.timeScale != 0)
         {
-            handleRotation(turnSpeed);
-        }
-        else if (dir.x > 0)
-        {
-            handleRotation(-turnSpeed);
+            if (dir.x < 0)
+            {
+                handleRotation(turnSpeed);
+            }
+            else if (dir.x > 0)
+            {
+                handleRotation(-turnSpeed);
+            }
         }        
     }
 

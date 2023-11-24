@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum Menu
 {
@@ -42,9 +43,29 @@ public class MenuManager : Singleton<MenuManager>
         return null;
     }
 
+    public void OnMove(InputValue value)
+    {
+        if (!SettingMenu.activeSelf || !ColorMenu.Instance.isButtons)
+            return;
+
+        Vector2 dir = value.Get<Vector2>();
+        colorTypes id = colorTypes.Invalid;
+
+        if (dir.x == 1)
+            id = colorTypes.Right;
+        else if (dir.x == -1)
+            id = colorTypes.Left;
+        else if (dir.y == 1)
+            id = colorTypes.Top;
+        else if (dir.y == -1)
+            id = colorTypes.Bot;
+
+        ColorMenu.Instance.handleButton(id);
+    }
+
     public void OnMenu()
     {
-        if(gameObject.activeSelf)
+        if(SettingMenu.activeSelf)
             GameManager.Instance.ExitGameStage(GameStage.Menu);
         else
             GameManager.Instance.SetGameStage(GameStage.Menu);

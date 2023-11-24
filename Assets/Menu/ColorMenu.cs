@@ -23,6 +23,9 @@ public class ColorMenu : Singleton<ColorMenu>
 
     private Dictionary<colorTypes, Image> ImageList;
 
+    public bool isButtons => Buttons.activeSelf;
+    public bool isColorPalette => ColorPalette.activeSelf;
+
     private void Start()
     {
         Instance = this;
@@ -44,29 +47,26 @@ public class ColorMenu : Singleton<ColorMenu>
         ColorMenuEvent.Invoke(selected, color);
     }
 
-    public void updateColor(colorTypes id, Color color)
+    public Image getImage(colorTypes id)
     {
         switch (id)
         {
-            case colorTypes.Top:
-                Top.color = color;
-                break;
-            case colorTypes.Bot:
-                Bot.color = color;
-                break;
-            case colorTypes.Left:
-                Left.color = color;
-                break;
-            case colorTypes.Right:
-                Right.color = color;
-                break;
-            case colorTypes.Center:
-                Center.color = color;
-                break;
+            case colorTypes.Top: return Top;
+            case colorTypes.Bot: return Bot;
+            case colorTypes.Left: return Left;
+            case colorTypes.Right: return Right;
+            case colorTypes.Center: return Center;
             default:
                 Debug.Log(string.Format("Invalid id {0}", id));
-                break;
+                return null;
         }
+    }
+
+
+    public void updateColor(colorTypes id, Color color)
+    {
+        Image image = getImage(id);
+        image.color = color;
     }
 
     public void handleButton(Image obj)
@@ -77,6 +77,12 @@ public class ColorMenu : Singleton<ColorMenu>
         selectedImage = obj;
         selected = ColorManager.getType(obj.gameObject);
     }
+
+    public void handleButton(colorTypes id)
+    {
+        handleButton(getImage(id));
+    }
+
 
     public void handleColorSelection(Color color)
     {
