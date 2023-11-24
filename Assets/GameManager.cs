@@ -36,7 +36,7 @@ public class GameManager : Singleton<GameManager>
     {
         Instance = this;
 
-        GameStage InitialStage = GameStage.Menu;
+        GameStage InitialStage = GameStage.Gameplay;
 
         #if UNITY_EDITOR
                 InitialStage = EditorDefaultStage;
@@ -191,6 +191,16 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyDown(KeyCode.Space))
         {
             initStage();
-        } 
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            SpriteRenderer renderer = LightController.Instance.GetComponent<SpriteRenderer>();
+
+            if (renderer.sortingOrder == 0)
+                renderer.sortingOrder = 1;
+            else
+                renderer.sortingOrder = 0;
+        }
     }
 }
