@@ -2,58 +2,71 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ColorMenu : MonoBehaviour
+public class ColorMenu : Singleton<ColorMenu>
 {
-    public enum state
-    {
-        Top, Bot, Left, Right, Center, Buttons, Invalid
-    }
-
-    public UnityEvent<Color, state> ColorPickerEvent;
+    public UnityEvent<colorTypes, Color> ColorMenuEvent;
 
     [SerializeField] private GameObject ColorPalette;
     [SerializeField] private GameObject Buttons;
 
-    public Dictionary<state, Color> ColorList = new Dictionary<state, Color>() {
-        { state.Top,    Color.white },
-        { state.Bot,    Color.white },
-        { state.Left,   Color.white },
-        { state.Right,  Color.white },
-        { state.Center, Color.white }
-    };
+    private colorTypes selected;
 
-    [SerializeField] private state selected;
-    [SerializeField] private Image selectedImage;
+    private Image selectedImage;
 
+    [SerializeField] private Image Top;
+    [SerializeField] private Image Bot;
+    [SerializeField] private Image Left;
+    [SerializeField] private Image Right;
+    [SerializeField] private Image Center;
+
+    private Dictionary<colorTypes, Image> ImageList;
+
+    private void Start()
+    {
+        Instance = this;
+
+        ImageList = new Dictionary<colorTypes, Image>() {
+            { colorTypes.Top,    Top },
+            { colorTypes.Bot,    Bot },
+            { colorTypes.Left,   Left },
+            { colorTypes.Right,  Right },
+            { colorTypes.Center, Center }
+        };
+    }
 
     public void updateColor(Color color)
     {
         if (color == Color.clear)
             color = Color.white;
 
-        ColorList[selected] = color;
-        selectedImage.color = color;
-
-        Debug.Log(color);
-
-        ColorPickerEvent.Invoke(color, selected);
+        ColorMenuEvent.Invoke(selected, color);
     }
 
-    private state getType(GameObject obj)
+    public void updateColor(colorTypes id, Color color)
     {
-        switch (obj.name)
+        switch (id)
         {
-            case "Top": return state.Top;
-            case "Bot": return state.Bot;
-            case "Left": return state.Left;
-            case "Right": return state.Right;
-            case "Center": return state.Center;
+            case colorTypes.Top:
+                Top.color = color;
+                break;
+            case colorTypes.Bot:
+                Bot.color = color;
+                break;
+            case colorTypes.Left:
+                Left.color = color;
+                break;
+            case colorTypes.Right:
+                Right.color = color;
+                break;
+            case colorTypes.Center:
+                Center.color = color;
+                break;
+            default:
+                Debug.Log(string.Format("Invalid id {0}", id));
+                break;
         }
-
-        return state.Invalid;
     }
 
     public void handleButton(Image obj)
@@ -62,7 +75,7 @@ public class ColorMenu : MonoBehaviour
         Buttons.SetActive(false);
 
         selectedImage = obj;
-        selected = getType(obj.gameObject);
+        selected = ColorManager.getType(obj.gameObject);
     }
 
     public void handleColorSelection(Color color)

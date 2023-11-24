@@ -41,4 +41,12 @@ public class MenuManager : Singleton<MenuManager>
 
         return null;
     }
+
+    public void OnMenu()
+    {
+        if(gameObject.activeSelf)
+            GameManager.Instance.ExitGameStage(GameStage.Menu);
+        else
+            GameManager.Instance.SetGameStage(GameStage.Menu);
+    }
 }

@@ -35,7 +35,7 @@ public class movement : MonoBehaviour
         trigger();
     }
 
-    private void trigger()
+    public void trigger()
     {
         OnUpdate?.Invoke(transform.rotation.eulerAngles.z, ArcDistance(), FirstHit);
         RaycastFront();

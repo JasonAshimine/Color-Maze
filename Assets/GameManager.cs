@@ -17,6 +17,8 @@ public class GameManager : Singleton<GameManager>
     public static event System.Action GameStateChangeEvent;
 
     private GameStage _gameStage = GameStage.Invalid;
+    private GameStage _previousStage = GameStage.Invalid;
+
     public GameStage CurrentStage => _gameStage;
 
     public GameStage EditorDefaultStage = GameStage.Gameplay;
@@ -25,27 +27,22 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] Vector2Int MazeSize;
 
-    [SerializeField] private Color Top;
-    [SerializeField] private Color Bot;
-    [SerializeField] private Color Left;
-    [SerializeField] private Color Right;
-    [SerializeField] private Color EndGoal;
-
-    private List<Color> Colors = new List<Color>();
     private int ColorIndex = 0;
+    private GameObject Player;
 
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
-        Colors = new List<Color>() { Top, Right, Bot, Left };
 
         GameStage InitialStage = GameStage.Menu;
 
         #if UNITY_EDITOR
                 InitialStage = EditorDefaultStage;
         #endif
+
         SetGameStage(InitialStage);
+        
     }
 
     private void OnEnable()
@@ -63,45 +60,23 @@ public class GameManager : Singleton<GameManager>
         ColorIndex = (int)rotation / 90;
 
         if (FirstHit.tag == "Finish")
-            RenderColor(distance, EndGoal);
+            RenderColor(distance, ColorManager.Instance.GetColor(colorTypes.Center));
         else
-            RenderColor(distance, GetColor(ColorIndex));
+            RenderColor(distance, ColorManager.Instance.GetColor(ColorIndex));
     }
 
-    public void UpdateColor(Color color, ColorMenu.state direction)
+
+    public void RenderColor()
     {
-        switch (direction)
-        {
-            case ColorMenu.state.Top: 
-                Top = color; 
-                break;
-            case ColorMenu.state.Bot:
-                Bot = color;
-                break;
-            case ColorMenu.state.Left:
-                Left = color;
-                break;
-            case ColorMenu.state.Right:
-                Right = color;
-                break;
-            case ColorMenu.state.Center:
-                EndGoal = color;
-                break;
-        }
+        Player?.GetComponent<movement>().trigger();
     }
 
-    Color GetColor(int index)
+    private void RenderColor(float[] distance, Color forwardColor)
     {
-        if (index == -1)
-            return Colors[Colors.Count - 1];
-        return Colors[index % Colors.Count];
-    }
+        LightController.Instance.updateMiddle(forwardColor, distance[1]);
 
-    private void RenderColor(float[] distance, Color main)
-    {
-        LightController.Instance.updateLeft(GetColor(ColorIndex + 1), distance[0]);
-        LightController.Instance.updateMiddle(main, distance[1]);
-        LightController.Instance.updateRight(GetColor(ColorIndex - 1), distance[2]);
+        LightController.Instance.updateLeft(ColorManager.Instance.GetColor(ColorIndex + 1), distance[0]);
+        LightController.Instance.updateRight(ColorManager.Instance.GetColor(ColorIndex - 1), distance[2]);
     }
 
     public void SetGameStage(GameStage newGameStage)
@@ -113,6 +88,19 @@ public class GameManager : Singleton<GameManager>
             _gameStage = newGameStage;
         }
     } 
+
+    public void ExitGameStage(GameStage currentStage)
+    {
+        if(currentStage == _gameStage)
+        {
+            switch (_gameStage)
+            {
+                case GameStage.Menu:
+                    SetGameStage(_previousStage);
+                    break;
+            }
+        }        
+    }
 
     public void OnExitStage(GameStage oldGameStage, GameStage newGameStage)
     {
@@ -126,6 +114,8 @@ public class GameManager : Singleton<GameManager>
                 MenuManager.Instance.EndMenu.SetActive(false);
                 break;
             case GameStage.Menu:
+                MenuManager.Instance.gameObject.SetActive(false);
+                ResumeGame();
                 break;
         }
     }
@@ -143,7 +133,9 @@ public class GameManager : Singleton<GameManager>
             case GameStage.EndGame:
                 MenuManager.Instance.EndMenu.SetActive(true);
                 break;
-            case GameStage.Menu: 
+            case GameStage.Menu:
+                MenuManager.Instance.gameObject.SetActive(true);
+                PauseGame();
                 break;
         }
     }
@@ -152,11 +144,18 @@ public class GameManager : Singleton<GameManager>
     {
         MazeGenerator.Instance.clear();
         MazeGenerator.Instance.Generator(MazeSize);
-        
-        MazeNode node = MazeGenerator.Instance.RandomNode();
 
-        Instantiate(PlayerPrefab, MazeGenerator.Instance.start.transform.position, Quaternion.identity, MazeGenerator.Instance.transform);
+        Player = Instantiate(PlayerPrefab, MazeGenerator.Instance.start.transform.position, Quaternion.identity, MazeGenerator.Instance.transform);
         Instantiate(EndPrefab, MazeGenerator.Instance.end.transform.position, Quaternion.identity, MazeGenerator.Instance.transform);
+    }
+
+    void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+    void ResumeGame()
+    {
+        Time.timeScale = 1;
     }
 
     private void Update()

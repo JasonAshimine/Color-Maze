@@ -2,38 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+public enum colorTypes
+{
+    Top, Bot, Left, Right, Center, Invalid
+}
 
 public class ColorManager : Singleton<ColorManager>
 {
-    public enum state
-    {
-        Top, Bot, Left, Right, Center, Invalid
-    }
+    public Color Top;
+    public Color Bot;
+    public Color Left;
+    public Color Right;
+    public Color Center;
 
-    public UnityEvent<Color, state> ColorPickerEvent;
 
-    public Dictionary<state, Color> ColorList = new Dictionary<state, Color>() {
-        { state.Top,    Color.white },
-        { state.Bot,    Color.white },
-        { state.Left,   Color.white },
-        { state.Right,  Color.white },
-        { state.Center, Color.white }
-    };
+    public UnityEvent<colorTypes, Color> ColorPickerEvent;
 
-    private state[] directions = new state[] { state.Top, state.Right, state.Bot, state.Left };
+    public Dictionary<colorTypes, Color> ColorList = new Dictionary<colorTypes, Color>();
+
+    private colorTypes[] directions = new colorTypes[] { colorTypes.Top, colorTypes.Right, colorTypes.Bot, colorTypes.Left };
 
     private void Start()
     {
         Instance = this;
+
+        AddColor(colorTypes.Top, Top);
+        AddColor(colorTypes.Bot, Bot);
+        AddColor(colorTypes.Left, Left);
+        AddColor(colorTypes.Right, Right);
+        AddColor(colorTypes.Center, Center);
     }
 
-    public void UpdateColor(state id, Color color)
+
+    public void AddColor(colorTypes id, Color color)
+    {
+        ColorList.Add(id, color);
+        ColorPickerEvent.Invoke(id, color);
+    }
+
+    public void UpdateColor(colorTypes id, Color color)
     {
         ColorList[id] = color;
-        ColorPickerEvent.Invoke(color, id);
+        ColorPickerEvent.Invoke(id, color);
     }
 
-    public Color GetColor(state id) => ColorList[id];
+    public Color GetColor(colorTypes id) => ColorList[id];
 
     public Color GetColor(int index)
     {
@@ -45,17 +58,17 @@ public class ColorManager : Singleton<ColorManager>
         return GetColor(directions[index]);
     }
 
-    public state getType(GameObject obj)
+    public static colorTypes getType(GameObject obj)
     {
         switch (obj.name)
         {
-            case "Top": return state.Top;
-            case "Bot": return state.Bot;
-            case "Left": return state.Left;
-            case "Right": return state.Right;
-            case "Center": return state.Center;
+            case "Top": return colorTypes.Top;
+            case "Bot": return colorTypes.Bot;
+            case "Left": return colorTypes.Left;
+            case "Right": return colorTypes.Right;
+            case "Center": return colorTypes.Center;
         }
 
-        return state.Invalid;
+        return colorTypes.Invalid;
     }
 }
