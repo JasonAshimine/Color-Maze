@@ -18,19 +18,11 @@ public class ColorManager : Singleton<ColorManager>
 
     public UnityEvent<colorTypes, Color> ColorPickerEvent;
 
-    public Dictionary<colorTypes, Color> ColorList = new Dictionary<colorTypes, Color>();
-
     private colorTypes[] directions = new colorTypes[] { colorTypes.Top, colorTypes.Right, colorTypes.Bot, colorTypes.Left };
 
     private void Start()
     {
         Instance = this;
-
-        AddColor(colorTypes.Top, Top);
-        AddColor(colorTypes.Bot, Bot);
-        AddColor(colorTypes.Left, Left);
-        AddColor(colorTypes.Right, Right);
-        AddColor(colorTypes.Center, Center);
     }
 
     public Color GetColor(colorTypes id)
@@ -48,21 +40,11 @@ public class ColorManager : Singleton<ColorManager>
         }
     }
 
-
-    public void AddColor(colorTypes id, Color color)
-    {
-        if(ColorList.TryAdd(id, color))
-            ColorPickerEvent.Invoke(id, color);
-
-    }
-
     public void UpdateColor(colorTypes id, Color color)
     {
-        ColorList[id] = color;
+        GetColor(id). = color;
         ColorPickerEvent.Invoke(id, color);
     }
-
-    public Color GetColor(colorTypes id) => ColorList[id];
 
     public Color GetColor(int index)
     {
