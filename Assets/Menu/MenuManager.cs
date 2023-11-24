@@ -9,19 +9,23 @@ public enum Menu
     Setting,
     Color,
     Sound,
-    End
+    End,
+    Closed
 }
 
 public class MenuManager : Singleton<MenuManager>
 {
-    public GameObject EndMenu;
-    public GameObject MainMenu;
-    public GameObject SettingMenu;
-    public GameObject colorMenu;
+    [SerializeField] private GameObject EndMenu;
+    [SerializeField] private GameObject MainMenu;
+    [SerializeField] private GameObject SettingMenu;
+    [SerializeField] private GameObject colorMenu;
+
+
+    private Menu _state;
 
 
     void Start()
-    {
+    { 
         Instance = this;
     }
 
@@ -30,6 +34,41 @@ public class MenuManager : Singleton<MenuManager>
         get(type).SetActive(toggle);
     }
 
+    public void open(Menu type)
+    {
+        Debug.Log("Open Menu " + type);
+
+        switch (type)
+        {
+            case Menu.End:
+                EndMenu.SetActive(true);
+                break;
+
+            case Menu.Main:
+                break;
+            case Menu.Setting:
+                SettingMenu.SetActive(true);
+                ColorMenu.Instance.openMenu();
+                break;
+        }
+    }
+
+
+    public void close(Menu type)
+    {
+        switch (type)
+        {
+            case Menu.End:
+                EndMenu.SetActive(false);
+                break;
+
+            case Menu.Main:
+                break;
+            case Menu.Setting:
+                SettingMenu.SetActive(false);
+                break;
+        }
+    }
 
     public GameObject get(Menu type)
     {

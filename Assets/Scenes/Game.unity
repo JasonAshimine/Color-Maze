@@ -324,8 +324,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 974528079}
-  - component: {fileID: 974528078}
   - component: {fileID: 974528081}
+  - component: {fileID: 974528078}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -772,7 +772,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1636612311}
   - component: {fileID: 1636612310}
-  - component: {fileID: 1636612313}
   - component: {fileID: 1636612312}
   m_Layer: 0
   m_Name: UI
@@ -844,21 +843,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1636612313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1636612309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
 --- !u!1 &1820580997 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7688158859779968682, guid: c44ea1be976bd114ebd7c6d11263999d, type: 3}

@@ -17,20 +17,42 @@ public class ColorManager : Singleton<ColorManager>
 
 
     public UnityEvent<colorTypes, Color> ColorPickerEvent;
-
-    public Dictionary<colorTypes, Color> ColorList = new Dictionary<colorTypes, Color>();
-
     private colorTypes[] directions = new colorTypes[] { colorTypes.Top, colorTypes.Right, colorTypes.Bot, colorTypes.Left };
 
     private void Start()
     {
         Instance = this;
 
-        AddColor(colorTypes.Top, Top);
-        AddColor(colorTypes.Bot, Bot);
-        AddColor(colorTypes.Left, Left);
-        AddColor(colorTypes.Right, Right);
-        AddColor(colorTypes.Center, Center);
+        foreach(colorTypes id in directions)
+            ColorPickerEvent.Invoke(id, GetColor(id));
+
+        ColorPickerEvent.Invoke(colorTypes.Center, Center);
+    }
+
+    public void UpdateColor(colorTypes id, Color color)
+    {
+        switch (id)
+        {
+            case colorTypes.Top: 
+                Top = color;
+                break;
+            case colorTypes.Bot: 
+                Bot = color;
+                break;
+            case colorTypes.Left: 
+                Left = color;
+                break;
+            case colorTypes.Right: 
+                Right = color;
+                break;
+            case colorTypes.Center:
+                Center = color;
+                break;
+            default:
+                return;
+        }
+        
+        ColorPickerEvent.Invoke(id, color);
     }
 
     public Color GetColor(colorTypes id)
@@ -44,25 +66,9 @@ public class ColorManager : Singleton<ColorManager>
             case colorTypes.Center: return Center;
             default:
                 Debug.Log(string.Format("Invalid id {0}", id));
-                return null;
+                return Color.black;
         }
     }
-
-
-    public void AddColor(colorTypes id, Color color)
-    {
-        if(ColorList.TryAdd(id, color))
-            ColorPickerEvent.Invoke(id, color);
-
-    }
-
-    public void UpdateColor(colorTypes id, Color color)
-    {
-        ColorList[id] = color;
-        ColorPickerEvent.Invoke(id, color);
-    }
-
-    public Color GetColor(colorTypes id) => ColorList[id];
 
     public Color GetColor(int index)
     {

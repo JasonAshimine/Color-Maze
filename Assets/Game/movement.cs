@@ -26,19 +26,15 @@ public class movement : MonoBehaviour
 
     public static event System.Action<float, float[], GameObject> OnUpdate;
 
-    private GameObject FirstHit;
-
     private void Awake()
     {
         movePoint.parent = transform.parent;
-        FirstHit = RaycastFront();
         trigger();
     }
 
     public void trigger()
     {
-        OnUpdate?.Invoke(transform.rotation.eulerAngles.z, ArcDistance(), FirstHit);
-        RaycastFront();
+        OnUpdate?.Invoke(transform.rotation.eulerAngles.z, ArcDistance(), RaycastFront());
     }
 
     private GameObject RaycastFront()
@@ -77,9 +73,6 @@ public class movement : MonoBehaviour
     private void handleRotation(float angle)
     {
         transform.Rotate(transform.forward, angle);
-
-        FirstHit = RaycastFront();
-
         trigger();
     }
 

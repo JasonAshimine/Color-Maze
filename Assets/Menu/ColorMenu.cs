@@ -21,31 +21,15 @@ public class ColorMenu : Singleton<ColorMenu>
     [SerializeField] private Image Right;
     [SerializeField] private Image Center;
 
-    private Dictionary<colorTypes, Image> ImageList;
-
     public bool isButtons => Buttons.activeSelf;
     public bool isColorPalette => ColorPalette.activeSelf;
 
     private void Start()
     {
         Instance = this;
-
-        ImageList = new Dictionary<colorTypes, Image>() {
-            { colorTypes.Top,    Top },
-            { colorTypes.Bot,    Bot },
-            { colorTypes.Left,   Left },
-            { colorTypes.Right,  Right },
-            { colorTypes.Center, Center }
-        };
     }
 
-    public void updateColor(Color color)
-    {
-        if (color == Color.clear)
-            color = Color.white;
-
-        ColorMenuEvent.Invoke(selected, color);
-    }
+    
 
     public Image getImage(colorTypes id)
     {
@@ -62,6 +46,14 @@ public class ColorMenu : Singleton<ColorMenu>
         }
     }
 
+    public void updateColor(Color color)
+    {
+        if (color == Color.clear)
+            color = Color.white;
+
+        ColorMenuEvent.Invoke(selected, color);
+    }
+
 
     public void updateColor(colorTypes id, Color color)
     {
@@ -71,8 +63,7 @@ public class ColorMenu : Singleton<ColorMenu>
 
     public void handleButton(Image obj)
     {
-        ColorPalette.SetActive(true);
-        Buttons.SetActive(false);
+        openColorPaletteMenu();
 
         selectedImage = obj;
         selected = ColorManager.getType(obj.gameObject);
@@ -83,11 +74,22 @@ public class ColorMenu : Singleton<ColorMenu>
         handleButton(getImage(id));
     }
 
-
-    public void handleColorSelection(Color color)
+    public void openMenu()
     {
         ColorPalette.SetActive(false);
         Buttons.SetActive(true);
+    }
+
+    public void openColorPaletteMenu()
+    {
+        ColorPalette.SetActive(true);
+        Buttons.SetActive(false);
+    }
+
+
+    public void handleColorSelection(Color color)
+    {
+        openMenu();
 
         updateColor(color);
     }

@@ -41,8 +41,7 @@ public class GameManager : Singleton<GameManager>
                 InitialStage = EditorDefaultStage;
         #endif
 
-        SetGameStage(InitialStage);
-        
+        SetGameStage(InitialStage);        
     }
 
     private void OnEnable()
@@ -111,10 +110,10 @@ public class GameManager : Singleton<GameManager>
                 break;
 
             case GameStage.EndGame:
-                MenuManager.Instance.EndMenu.SetActive(false);
+                MenuManager.Instance.close(Menu.End);
                 break;
             case GameStage.Menu:
-                MenuManager.Instance.SettingMenu.SetActive(false);
+                MenuManager.Instance.close(Menu.Setting);
                 ResumeGame();
                 break;
         }
@@ -132,10 +131,10 @@ public class GameManager : Singleton<GameManager>
 
             case GameStage.EndGame:
                 MazeGenerator.Instance.clear();
-                MenuManager.Instance.EndMenu.SetActive(true);
+                MenuManager.Instance.open(Menu.End);
                 break;
             case GameStage.Menu:
-                MenuManager.Instance.SettingMenu.SetActive(true);
+                MenuManager.Instance.open(Menu.Setting);
                 PauseGame();
                 break;
         }
