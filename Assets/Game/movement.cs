@@ -55,19 +55,19 @@ public class movement : MonoBehaviour
 
     public void OnMove(InputValue value)
     {
+        if (Time.timeScale == 0)
+            return;
+
         dir = value.Get<Vector2>();
-        
-        if(Time.timeScale != 0)
+        if (dir.x < 0)
         {
-            if (dir.x < 0)
-            {
-                handleRotation(turnSpeed);
-            }
-            else if (dir.x > 0)
-            {
-                handleRotation(-turnSpeed);
-            }
-        }        
+            handleRotation(turnSpeed);
+        }
+        else if (dir.x > 0)
+        {
+            handleRotation(-turnSpeed);
+        }
+      
     }
 
     private void handleRotation(float angle)
