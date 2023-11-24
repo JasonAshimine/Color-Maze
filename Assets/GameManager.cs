@@ -63,9 +63,31 @@ public class GameManager : Singleton<GameManager>
         ColorIndex = (int)rotation / 90;
 
         if (FirstHit.tag == "Finish")
-            UpdateColor(distance, EndGoal);
+            RenderColor(distance, EndGoal);
         else
-            UpdateColor(distance, GetColor(ColorIndex));
+            RenderColor(distance, GetColor(ColorIndex));
+    }
+
+    public void UpdateColor(Color color, ColorMenu.state direction)
+    {
+        switch (direction)
+        {
+            case ColorMenu.state.Top: 
+                Top = color; 
+                break;
+            case ColorMenu.state.Bot:
+                Bot = color;
+                break;
+            case ColorMenu.state.Left:
+                Left = color;
+                break;
+            case ColorMenu.state.Right:
+                Right = color;
+                break;
+            case ColorMenu.state.Center:
+                EndGoal = color;
+                break;
+        }
     }
 
     Color GetColor(int index)
@@ -75,7 +97,7 @@ public class GameManager : Singleton<GameManager>
         return Colors[index % Colors.Count];
     }
 
-    private void UpdateColor(float[] distance, Color main)
+    private void RenderColor(float[] distance, Color main)
     {
         LightController.Instance.updateLeft(GetColor(ColorIndex + 1), distance[0]);
         LightController.Instance.updateMiddle(main, distance[1]);
