@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc82e8f604e7acf4e85de9435c05364a, type: 3}
+  m_Name: MazeData
+  m_EditorClassIdentifier: 
+  MapSize: {x: 10, y: 10}
+  MazeEvent: {fileID: 11400000, guid: 6feff3d56009a5040bc481564e284c72, type: 2}

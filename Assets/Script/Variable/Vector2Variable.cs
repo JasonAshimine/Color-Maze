@@ -1,6 +1,12 @@
 using UnityEngine;
 
-public class Vector2Variable : ScriptableObject
+namespace Variable 
 {
-    public Vector2 Value;
+    [CreateAssetMenu(fileName = "Vector2", menuName = "Variable/Vector2")]
+    public class Vector2Variable : ScriptableObject
+    {
+        public Vector2 Value;
+    }
 }
+
+

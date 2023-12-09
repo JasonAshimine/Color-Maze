@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using Game.Events;
+using Maze;
 
 public enum GameStage
 {
@@ -16,6 +18,12 @@ public enum GameStage
 public class GameManager : Singleton<GameManager>
 {
     public static event System.Action GameStateChangeEvent;
+
+    [SerializeField]
+    private Variable.MazeVariable _MazeData;
+
+    [SerializeField]
+    private Variable.ColorDirection _colorData;
 
     private GameStage _gameStage = GameStage.Invalid;
     private GameStage _previousStage = GameStage.Invalid;
@@ -132,11 +140,11 @@ public class GameManager : Singleton<GameManager>
         switch (newGameStage)
         {
             case GameStage.Gameplay:
-                initStage();
+                InitStage();
                 break;
 
             case GameStage.EndGame:
-                MazeGenerator.Instance.clear();
+                ClearStage();
                 MenuManager.Instance.open(Menu.End);
                 break;
             case GameStage.Menu:
@@ -146,13 +154,21 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private void initStage()
+    private void InitStage()
     {
-        MazeGenerator.Instance.clear();
-        MazeGenerator.Instance.Generator(MazeSize);
+        ClearStage();
+        _MazeData.Raise(MazeEventType.Create);
+        
+        Player = Instantiate(PlayerPrefab, _MazeData.Start.transform.position, Quaternion.identity, gameObject.transform);
+        Instantiate(EndPrefab, _MazeData.End.transform.position, Quaternion.identity, gameObject.transform);
+    }
 
-        Player = Instantiate(PlayerPrefab, MazeGenerator.Instance.start.transform.position, Quaternion.identity, MazeGenerator.Instance.transform);
-        Instantiate(EndPrefab, MazeGenerator.Instance.end.transform.position, Quaternion.identity, MazeGenerator.Instance.transform);
+    private void ClearStage()
+    {
+        _MazeData.Raise(MazeEventType.Clear);
+
+        foreach (Transform node in transform)
+            GameObject.Destroy(node.gameObject);
     }
 
     public Light2D getLight(colorTypes id)
@@ -190,7 +206,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            initStage();
+            InitStage();
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))

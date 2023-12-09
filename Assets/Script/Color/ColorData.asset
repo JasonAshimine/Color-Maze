@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b72928b4cae515e4da79cb40d1cc2f82, type: 3}
+  m_Name: ColorData
+  m_EditorClassIdentifier: 
+  Top: {fileID: 11400000, guid: 1f52caa27308e014bb7760d9cff87038, type: 2}
+  Bot: {fileID: 11400000, guid: d901f389048766142b5d48aa63710b19, type: 2}
+  Left: {fileID: 11400000, guid: 72e72aee25e1dbb4bbc1759b9762a892, type: 2}
+  Right: {fileID: 11400000, guid: cd198af7fa65b974fb93cea6b7fbdc5d, type: 2}
+  Center: {fileID: 11400000, guid: d6295cea7f3773544a2d62952ea15f73, type: 2}
+  _OnChange: {fileID: 11400000, guid: 92c986fead3363e4980fcc57330a9b3d, type: 2}
+  Forward: []
