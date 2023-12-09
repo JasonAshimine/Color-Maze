@@ -49,6 +49,7 @@ MonoBehaviour:
   ColorMenuEvent:
     m_PersistentCalls:
       m_Calls: []
+  _colorData: {fileID: 11400000, guid: c2b336bd3a56d564f8acbbdf937032fc, type: 2}
   ColorPalette: {fileID: 3601364888247897228}
   Buttons: {fileID: 7223750644794513470}
   Top: {fileID: 836728256806562116}

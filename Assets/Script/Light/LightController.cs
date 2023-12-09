@@ -5,11 +5,19 @@ using Game.Events;
 using Variable;
 using UnityEngine.Rendering.Universal;
 
+
+public enum LightEventType
+{
+    Toggle,
+    Color
+}
+
 public class LightController : MonoBehaviour
 {
-    [Range(0f, 1f)] public float minIntensity;
+    [Range(0f, 1f)] public float minIntensity = 0.5f;
 
     [SerializeField] private ColorDirection _colorData;
+    [SerializeField] private LightDataSet _lightData;
 
     [SerializeField] private Light2D Left;
     [SerializeField] private Light2D Middle;
@@ -21,26 +29,25 @@ public class LightController : MonoBehaviour
         resizeBackground(); 
     }
 
-    public void updateAllLights(object _data)
+    public void updateAllLights(object data)
     {
-        LightEventData data = (LightEventData)_data;
-
-        updateLight(Left, data.left);
-        updateLight(Middle, data.middle);
-        updateLight(Right, data.right);
+        switch((LightEventType)data)
+        {
+            case LightEventType.Color:
+                updateLight(Left, _lightData.Left);
+                updateLight(Middle, _lightData.Middle);
+                updateLight(Right, _lightData.Right);
+                break;
+            case LightEventType.Toggle:
+                Left.gameObject.SetActive(_lightData.toggleLeft);
+                Right.gameObject.SetActive(_lightData.toggleRight);
+                break;
+        }
     }
 
     public void updateLight(Light2D light, ColorIntensity data)
     {
-        if(data == null)
-        {
-            light.gameObject.SetActive(false);
-        }
-        else
-        {
-            light.gameObject.SetActive(true);
-            light.color = data.color * CalcDistanceIntensity(data.intensity);
-        }        
+        light.color = data.color * CalcDistanceIntensity(data.intensity);
     }
 
 
@@ -53,18 +60,4 @@ public class LightController : MonoBehaviour
         Vector2 worldScale = Camera.main.ViewportToWorldPoint(Vector3.one);
         transform.localScale = worldScale * 2;
     }
-}
-
-public struct LightEventData
-{
-    public LightEventData(ColorIntensity left, ColorIntensity middle,  ColorIntensity right)
-    {
-        this.left = left;
-        this.middle = middle;
-        this.right = right;
-    }
-
-    public ColorIntensity left;
-    public ColorIntensity middle;
-    public ColorIntensity right;
 }

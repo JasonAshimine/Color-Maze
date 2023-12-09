@@ -18,13 +18,13 @@ public class GameManager : Singleton<GameManager>
     public static event System.Action GameStateChangeEvent;
 
     [SerializeField]
-    private Variable.MazeVariable _MazeData;
+    private MazeVariable _MazeData;
 
     [SerializeField]
     private ColorDirection _colorData;
 
     [SerializeField]
-    private GameEventData _lightEvent;
+    private LightDataSet _lightData;
 
     [SerializeField]
     private LayerMask _GoalLayer;
@@ -54,27 +54,41 @@ public class GameManager : Singleton<GameManager>
 
         #if UNITY_EDITOR
                 InitialStage = EditorDefaultStage;
-        #endif
+#endif
 
+        ResetColors();
         SetGameStage(InitialStage);        
     }
+
+    private void ResetColors()
+    {
+        _colorData.Center.color = Color.white;
+        _colorData.Top.color = Color.red;
+        _colorData.Bot.color = Color.green;
+        _colorData.Left.color = Color.blue;
+        _colorData.Right.color = Color.yellow;
+    }
+
 
     public void handlePlayerMovement(object data)
     {
         Direction dir = (Direction)data;
         int index = (int) (dir.direction / 90);
 
-        ColorIntensity Left     = GetColor(dir.left, index + 1);
-        ColorIntensity Middle   = GetColor(dir.forward, index);
-        ColorIntensity Right    = GetColor(dir.right, index - 1);
+        _lightData.Left     = GetColor(dir.left, index + 1);
+        _lightData.Middle   = GetColor(dir.forward, index);
+        _lightData.Right    = GetColor(dir.right, index - 1);
 
-        _lightEvent.Raise(new LightEventData(Left, Middle, Right));
+        _lightData.Raise(LightEventType.Color);
+
+        //Debug.Log(dir.forward.collider.name + " " + Middle);
     }
 
     private ColorIntensity GetColor(RaycastHit2D hit, int index)
     {
-        ColorIntensity color =  hit.collider.gameObject.layer == EndPrefab.layer
+        ColorIntensity color =  hit.collider.gameObject.tag == EndPrefab.tag
             ? _colorData.Center : _colorData.GetColor(index);
+
 
         color.intensity = hit.distance;
         return color;

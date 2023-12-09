@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Variable;
 
 public class ColorMenu : Singleton<ColorMenu>
 {
-    public UnityEvent<colorTypes, Color> ColorMenuEvent;
+    public UnityEvent<ColorIntensity, Color> ColorMenuEvent;
+    [SerializeField] private ColorDirection _colorData;
+
 
     [SerializeField] private GameObject ColorPalette;
     [SerializeField] private GameObject Buttons;
 
-    private colorTypes selected;
+    private ColorIntensity selected;
 
     [SerializeField] private Image Top;
     [SerializeField] private Image Bot;
@@ -28,9 +31,10 @@ public class ColorMenu : Singleton<ColorMenu>
     private void Start()
     {
         Instance = this;
+        updateColor();
     }
 
- /*   private void OnEnable()
+/*    private void OnEnable()
     {
         Side_Left.color = LightController.Instance.Left.color;
         Side_Right.color = LightController.Instance.Right.color;
@@ -57,6 +61,9 @@ public class ColorMenu : Singleton<ColorMenu>
             color = Color.white;
 
         ColorMenuEvent.Invoke(selected, color);
+
+        selected.color = color;
+        updateColor();
     }
 
     public void updateSideColor(colorTypes id, Color color)
@@ -68,19 +75,20 @@ public class ColorMenu : Singleton<ColorMenu>
     }
 
 
-    public void updateColor(colorTypes id, Color color)
+    public void updateColor()
     {
-        Image image = getImage(id);
-        image.color = color;
+        Top.color = _colorData.Top.color;
+        Bot.color = _colorData.Bot.color;
+        Left.color = _colorData.Left.color;
+        Right.color = _colorData.Right.color;
     }
 
     public void handleButton(Image obj)
     {
         openColorPaletteMenu();
 
-        //selected = ColorManager.getType(obj.gameObject);
+        selected = getColor(obj.gameObject.name);
     }
-
 
     public void handleSideButton(GameObject obj)
     {
@@ -95,14 +103,23 @@ public class ColorMenu : Singleton<ColorMenu>
             case colorTypes.Right:
                 break;
         }*/
-
-        
     }
 
-    public void handleButton(colorTypes id)
+
+    public ColorIntensity getColor(string name)
     {
-        handleButton(getImage(id));
+        switch (name)
+        {
+            case "Top": return _colorData.Top;
+            case "Bot": return _colorData.Bot;
+            case "Left": return _colorData.Left;
+            case "Right": return _colorData.Right;
+            case "Center": return _colorData.Center;
+        }
+
+        return null;
     }
+
 
     public void openMenu()
     {

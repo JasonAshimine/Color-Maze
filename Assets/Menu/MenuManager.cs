@@ -82,7 +82,7 @@ public class MenuManager : Singleton<MenuManager>
         return null;
     }
 
-    public void OnMove(InputValue value)
+/*    public void OnMove(InputValue value)
     {
         if (!SettingMenu.activeSelf || !ColorMenu.Instance.isButtons)
             return;
@@ -100,7 +100,7 @@ public class MenuManager : Singleton<MenuManager>
             id = colorTypes.Bot;
 
         ColorMenu.Instance.handleButton(id);
-    }
+    }*/
 
     public void OnMenu()
     {
