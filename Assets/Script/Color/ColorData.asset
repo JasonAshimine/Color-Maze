@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b72928b4cae515e4da79cb40d1cc2f82, type: 3}
   m_Name: ColorData
   m_EditorClassIdentifier: 
-  Top: {fileID: 11400000, guid: 1f52caa27308e014bb7760d9cff87038, type: 2}
-  Bot: {fileID: 11400000, guid: d901f389048766142b5d48aa63710b19, type: 2}
-  Left: {fileID: 11400000, guid: 72e72aee25e1dbb4bbc1759b9762a892, type: 2}
-  Right: {fileID: 11400000, guid: cd198af7fa65b974fb93cea6b7fbdc5d, type: 2}
-  Center: {fileID: 11400000, guid: d6295cea7f3773544a2d62952ea15f73, type: 2}
-  _OnChange: {fileID: 11400000, guid: 92c986fead3363e4980fcc57330a9b3d, type: 2}
-  Forward: []
+  Top: {fileID: 11400000, guid: 25de8b81931d9bb46b1fa2dff0c6b063, type: 2}
+  Bot: {fileID: 11400000, guid: 6fb04cc38e4117f4780c63f8f0d5b581, type: 2}
+  Left: {fileID: 11400000, guid: d90557e9b2e03a24fa30a1ff4d6ce480, type: 2}
+  Right: {fileID: 11400000, guid: 200287bd4d7ccc04a8eab7f65b5de74e, type: 2}
+  Center: {fileID: 11400000, guid: 4090a6858035e0d45a99965484006e18, type: 2}

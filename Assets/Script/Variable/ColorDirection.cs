@@ -7,28 +7,13 @@ namespace Variable
     [CreateAssetMenu(fileName = "ColorData", menuName = "Variable/ColorData")]
     public class ColorDirection : ScriptableObject
     {
-        public ColorVariable Top;
-        public ColorVariable Bot;
-        public ColorVariable Left;
-        public ColorVariable Right;
-        public ColorVariable Center;
+        public ColorIntensity Top;
+        public ColorIntensity Bot;
+        public ColorIntensity Left;
+        public ColorIntensity Right;
+        public ColorIntensity Center;
 
-        public Game.Events.GameEventData _OnChange;
-
-        public ColorVariable[] Forward;
-
-        public void SetDirection(int index)
-        {
-            for(int i = 0; i < 3; i++)
-            {
-                Forward[i] = GetColor(index - i - 1);
-            }
-
-            _OnChange.Raise();
-        }
-
-
-        public ColorVariable GetColor(int index)
+        public ColorIntensity GetColor(int index)
         {
             if (index < 0)
                 index = 3;

@@ -139,6 +139,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e00263f11591cda4699963dcab0d6400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &310375979 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3318419227877402920, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
+  m_PrefabInstance: {fileID: 3318419227035027030}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &310375980 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3318419227877403095, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
+  m_PrefabInstance: {fileID: 3318419227035027030}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310375979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 888189d463c338b4882f39493856c998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &310375983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310375979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6ac400fab43ab4493e9cb9ec37e872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 9e9daa34a46fa9a40992494e60902924, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 310375980}
+        m_TargetAssemblyTypeName: LightController, Assembly-CSharp
+        m_MethodName: updateAllLights
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,6 +322,7 @@ GameObject:
   - component: {fileID: 974528079}
   - component: {fileID: 974528078}
   - component: {fileID: 974528080}
+  - component: {fileID: 974528081}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -299,6 +344,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MazeData: {fileID: 11400000, guid: 131b26013b42d8540b63fe84ae98e69c, type: 2}
   _colorData: {fileID: 11400000, guid: c2b336bd3a56d564f8acbbdf937032fc, type: 2}
+  _lightEvent: {fileID: 11400000, guid: 9e9daa34a46fa9a40992494e60902924, type: 2}
+  _GoalLayer:
+    serializedVersion: 2
+    m_Bits: 128
   EditorDefaultStage: 2
   PlayerPrefab: {fileID: 7557137852289040027, guid: f7fff0fb6d2f0e346b9ca4ea07842e00, type: 3}
   EndPrefab: {fileID: 3362802199925880881, guid: 739ad63f2ab0eb84887f27d957ed7727, type: 3}
@@ -337,6 +386,34 @@ MonoBehaviour:
   ColorPickerEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &974528081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974528077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6ac400fab43ab4493e9cb9ec37e872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: abc2947740f46874abc8983ae2c6949d, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 974528078}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: handlePlayerMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &996937187
 PrefabInstance:
   m_ObjectHideFlags: 0

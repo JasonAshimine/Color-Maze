@@ -6,6 +6,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using Game.Events;
 using Maze;
+using Variable;
 
 public enum GameStage
 {
@@ -23,7 +24,13 @@ public class GameManager : Singleton<GameManager>
     private Variable.MazeVariable _MazeData;
 
     [SerializeField]
-    private Variable.ColorDirection _colorData;
+    private ColorDirection _colorData;
+
+    [SerializeField]
+    private GameEventData _lightEvent;
+
+    [SerializeField]
+    private LayerMask _GoalLayer;
 
     private GameStage _gameStage = GameStage.Invalid;
     private GameStage _previousStage = GameStage.Invalid;
@@ -55,39 +62,41 @@ public class GameManager : Singleton<GameManager>
 
     private void OnEnable()
     {
-        movement.OnUpdate += handlePlayerMovement;
+        //Movement.OnUpdate += handlePlayerMovement;
     }
 
     private void OnDisable()
     {
-        movement.OnUpdate -= handlePlayerMovement;
+        //Movement.OnUpdate -= handlePlayerMovement;
     }
 
-    private void handlePlayerMovement(float rotation, float[] distance, GameObject FirstHit)
+    public void handlePlayerMovement(object data)
     {
-        ColorIndex = (int)rotation / 90;
+        Direction dir = (Direction)data;
+        int index = (int) (dir.direction / 90);
 
-        if (FirstHit.tag == "Finish")
-            RenderColor(distance, ColorManager.Instance.GetColor(colorTypes.Center));
-        else
-            RenderColor(distance, ColorManager.Instance.GetColor(ColorIndex));
+        ColorIntensity Left     = GetColor(dir.left, index + 1);
+        ColorIntensity Middle   = GetColor(dir.forward, index);
+        ColorIntensity Right    = GetColor(dir.right, index - 1);
+
+        Debug.Log(index + " " + Middle.color);
+        _lightEvent.Raise(new LightEventData(Left, Middle, Right));
+    }
+
+    private ColorIntensity GetColor(RaycastHit2D hit, int index)
+    {
+        float distance = hit.distance;
+        ColorIntensity color = hit.collider.gameObject.layer == _GoalLayer 
+            ? _colorData.Center : _colorData.GetColor(index);
+
+        color.intensity = distance;
+        return color;
     }
 
 
     public void RenderColor()
     {
-        Player?.GetComponent<movement>().trigger();
-    }
-
-    private void RenderColor(float[] distance, Color forwardColor)
-    {
-        LightController.Instance.updateMiddle(forwardColor, distance[1]);
-
-        Color left = ColorManager.Instance.GetColor(ColorIndex + 1);
-        Color right = ColorManager.Instance.GetColor(ColorIndex - 1);
-
-        LightController.Instance.updateLeft(left, distance[0]);
-        LightController.Instance.updateRight(right, distance[2]);
+        Player?.GetComponent<Movement>().trigger();
     }
 
     public void SetGameStage(GameStage newGameStage)
@@ -175,9 +184,9 @@ public class GameManager : Singleton<GameManager>
     {
         switch (id)
         {
-            case colorTypes.Left: return LightController.Instance.Left;
-            case colorTypes.Right: return LightController.Instance.Right;
-            case colorTypes.Center: return LightController.Instance.Middle;
+            //case colorTypes.Left: return LightController.Instance.Left;
+            //case colorTypes.Right: return LightController.Instance.Right;
+            //case colorTypes.Center: return LightController.Instance.Middle;
         }
         return null;
     }
@@ -209,7 +218,7 @@ public class GameManager : Singleton<GameManager>
             InitStage();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+/*        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             SpriteRenderer renderer = LightController.Instance.GetComponent<SpriteRenderer>();
 
@@ -217,6 +226,6 @@ public class GameManager : Singleton<GameManager>
                 renderer.sortingOrder = 1;
             else
                 renderer.sortingOrder = 0;
-        }
+        }*/
     }
 }

@@ -78,14 +78,14 @@ public class ColorMenu : Singleton<ColorMenu>
     {
         openColorPaletteMenu();
 
-        selected = ColorManager.getType(obj.gameObject);
+        //selected = ColorManager.getType(obj.gameObject);
     }
 
 
     public void handleSideButton(GameObject obj)
     {
-        colorTypes type = ColorManager.getType(obj);
-        GameManager.Instance.toggleLight(type);
+       // colorTypes type = ColorManager.getType(obj);
+        //GameManager.Instance.toggleLight(type);
 
 /*        switch (type)
         {

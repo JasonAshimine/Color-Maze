@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b41a44a5ea8e86745ab9d07821f244da, type: 3}
-  m_Name: Bottom
+  m_Script: {fileID: 11500000, guid: a1fbf2045272a9349bf1b7d8a076a178, type: 3}
+  m_Name: EventLight
   m_EditorClassIdentifier: 
-  _defaultValue: {r: 1, g: 0, b: 1, a: 1}

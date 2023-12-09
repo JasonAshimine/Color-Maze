@@ -1,30 +1,22 @@
+using Game.Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum Direction
-{
-    Top,
-    Bot,
-    Left,
-    Right
-}
-
-
-public class movement : MonoBehaviour
-{
-    private Vector3 dir;
+public class Movement : MonoBehaviour
+{     
+    [SerializeField] private GameEventData _forwardEvent;
 
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float turnSpeed;
 
     [SerializeField] private Transform movePoint;
 
     [SerializeField] private LayerMask WallLayer;
     [SerializeField] private ContactFilter2D Filter;
 
-    public static event System.Action<float, float[], GameObject> OnUpdate;
+    private Vector3 dir;
+    private float turnSpeed = 90;
 
     private void Awake()
     {
@@ -34,24 +26,19 @@ public class movement : MonoBehaviour
 
     public void trigger()
     {
-        OnUpdate?.Invoke(transform.rotation.eulerAngles.z, ArcDistance(), RaycastFront());
+        _forwardEvent.Raise(new Direction(transform.rotation.eulerAngles.z, DirLeft, DirFront, DirRight));
     }
 
-    private GameObject RaycastFront()
+    private RaycastHit2D Raycast(Vector2 direction)
     {
         RaycastHit2D[] hits = new RaycastHit2D[1];
-        int counts = Physics2D.Raycast(transform.position, transform.up, Filter, hits);
-
-        return hits[0].collider.gameObject;
+        Physics2D.Raycast(transform.position, direction, Filter, hits);
+        return hits[0];
     }
 
-    private RaycastHit2D Raycast() => Raycast(transform.up);
-    private RaycastHit2D Raycast(Vector2 direction) => Physics2D.Raycast(transform.position, direction, 99, WallLayer);
-
-    public float FrontDistance => Raycast(transform.up).distance;
-    public float LeftDistance => Raycast(transform.TransformDirection(Vector2.left)).distance;
-    public float RightDistance => Raycast( transform.TransformDirection(Vector2.right)).distance;
-    public float[] ArcDistance() => new float[] { LeftDistance, FrontDistance, RightDistance };
+    public RaycastHit2D DirFront => Raycast(transform.up);
+    public RaycastHit2D DirLeft => Raycast(transform.TransformDirection(Vector2.left));
+    public RaycastHit2D DirRight => Raycast( transform.TransformDirection(Vector2.right));
 
     public void OnMove(InputValue value)
     {
@@ -96,4 +83,21 @@ public class movement : MonoBehaviour
         }        
     }
 
+}
+
+
+public struct Direction 
+{
+    public Direction(float direction, RaycastHit2D left, RaycastHit2D forward, RaycastHit2D right)
+    {
+        this.direction = direction;
+        this.forward = forward;
+        this.left = left;
+        this.right = right;
+    }
+
+    public float direction;
+    public RaycastHit2D forward;
+    public RaycastHit2D left;
+    public RaycastHit2D right;
 }

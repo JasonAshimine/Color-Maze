@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b41a44a5ea8e86745ab9d07821f244da, type: 3}
+  m_Script: {fileID: 11500000, guid: fed6726848e1e9745a412889dcba7be1, type: 3}
   m_Name: Top
   m_EditorClassIdentifier: 
-  _defaultValue: {r: 1, g: 0, b: 0, a: 1}
+  color: {r: 1, g: 0, b: 0, a: 1}
+  intensity: 1
