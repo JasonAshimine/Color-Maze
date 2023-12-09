@@ -79,7 +79,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 752955237655842189}
         m_TargetAssemblyTypeName: ColorMenu, Assembly-CSharp
-        m_MethodName: handleLightEvent
+        m_MethodName: HandleLightEvent
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
