@@ -1,9 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.SceneManagement;
 using Game.Events;
 using Maze;
 using Variable;
@@ -43,13 +40,15 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] Vector2Int MazeSize;
 
-    private int ColorIndex = 0;
     private GameObject Player;
+    private GameObject EndGoal;
 
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
+
+        _MazeData.MapSize = MazeSize;
 
         GameStage InitialStage = GameStage.Gameplay;
 
@@ -58,16 +57,6 @@ public class GameManager : Singleton<GameManager>
         #endif
 
         SetGameStage(InitialStage);        
-    }
-
-    private void OnEnable()
-    {
-        //Movement.OnUpdate += handlePlayerMovement;
-    }
-
-    private void OnDisable()
-    {
-        //Movement.OnUpdate -= handlePlayerMovement;
     }
 
     public void handlePlayerMovement(object data)
@@ -79,24 +68,16 @@ public class GameManager : Singleton<GameManager>
         ColorIntensity Middle   = GetColor(dir.forward, index);
         ColorIntensity Right    = GetColor(dir.right, index - 1);
 
-        Debug.Log(index + " " + Middle.color);
         _lightEvent.Raise(new LightEventData(Left, Middle, Right));
     }
 
     private ColorIntensity GetColor(RaycastHit2D hit, int index)
     {
-        float distance = hit.distance;
-        ColorIntensity color = hit.collider.gameObject.layer == _GoalLayer 
+        ColorIntensity color =  hit.collider.gameObject.layer == EndPrefab.layer
             ? _colorData.Center : _colorData.GetColor(index);
 
-        color.intensity = distance;
+        color.intensity = hit.distance;
         return color;
-    }
-
-
-    public void RenderColor()
-    {
-        Player?.GetComponent<Movement>().trigger();
     }
 
     public void SetGameStage(GameStage newGameStage)
@@ -169,7 +150,7 @@ public class GameManager : Singleton<GameManager>
         _MazeData.Raise(MazeEventType.Create);
         
         Player = Instantiate(PlayerPrefab, _MazeData.Start.transform.position, Quaternion.identity, gameObject.transform);
-        Instantiate(EndPrefab, _MazeData.End.transform.position, Quaternion.identity, gameObject.transform);
+        EndGoal = Instantiate(EndPrefab, _MazeData.End.transform.position, Quaternion.identity, gameObject.transform);
     }
 
     private void ClearStage()
@@ -178,28 +159,6 @@ public class GameManager : Singleton<GameManager>
 
         foreach (Transform node in transform)
             GameObject.Destroy(node.gameObject);
-    }
-
-    public Light2D getLight(colorTypes id)
-    {
-        switch (id)
-        {
-            //case colorTypes.Left: return LightController.Instance.Left;
-            //case colorTypes.Right: return LightController.Instance.Right;
-            //case colorTypes.Center: return LightController.Instance.Middle;
-        }
-        return null;
-    }
-
-    public bool toggleLight(colorTypes id)
-    {
-        GameObject obj = getLight(id)?.gameObject;
-
-        if (obj == null)
-            return true;
-
-        obj.SetActive(!obj.activeSelf);
-        return obj.activeSelf;
     }
 
     void PauseGame()

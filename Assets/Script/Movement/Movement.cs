@@ -13,7 +13,9 @@ public class Movement : MonoBehaviour
     [SerializeField] private Transform movePoint;
 
     [SerializeField] private LayerMask WallLayer;
-    [SerializeField] private ContactFilter2D Filter;
+    [SerializeField] private LayerMask DetectLayer;
+
+    //[SerializeField] private ContactFilter2D Filter;
 
     private Vector3 dir;
     private float turnSpeed = 90;
@@ -29,11 +31,16 @@ public class Movement : MonoBehaviour
         _forwardEvent.Raise(new Direction(transform.rotation.eulerAngles.z, DirLeft, DirFront, DirRight));
     }
 
-    private RaycastHit2D Raycast(Vector2 direction)
+/*    private RaycastHit2D Raycast(Vector2 direction)
     {
         RaycastHit2D[] hits = new RaycastHit2D[1];
         Physics2D.Raycast(transform.position, direction, Filter, hits);
         return hits[0];
+    }
+*/
+    private RaycastHit2D Raycast(Vector2 direction)
+    {
+        return Physics2D.Raycast(transform.position, direction, 99f, DetectLayer);
     }
 
     public RaycastHit2D DirFront => Raycast(transform.up);

@@ -32,7 +32,15 @@ public class LightController : MonoBehaviour
 
     public void updateLight(Light2D light, ColorIntensity data)
     {
-        light.color = data.color * CalcDistanceIntensity(data.intensity);
+        if(data == null)
+        {
+            light.gameObject.SetActive(false);
+        }
+        else
+        {
+            light.gameObject.SetActive(true);
+            light.color = data.color * CalcDistanceIntensity(data.intensity);
+        }        
     }
 
 
