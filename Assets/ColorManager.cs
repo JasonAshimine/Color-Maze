@@ -7,6 +7,10 @@ public enum colorTypes
     Top, Bot, Left, Right, Center, Invalid
 }
 
+/// <summary>
+/// Holds all Color references
+/// </summary>
+
 public class ColorManager : Singleton<ColorManager>
 {
     public Color Top;
