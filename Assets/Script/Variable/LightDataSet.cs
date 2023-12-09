@@ -14,9 +14,9 @@ namespace Variable
         [SerializeField]
         private GameEventData _LightEvent;
 
-        public ColorIntensity Middle { get; set; }
-        public ColorIntensity Left { get; set; }
-        public ColorIntensity Right { get; set; }
+        public ColorIntensity Middle;
+        public ColorIntensity Left;
+        public ColorIntensity Right;
 
         public void Raise(LightEventType type)
         {

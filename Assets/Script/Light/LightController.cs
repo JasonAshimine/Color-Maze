@@ -26,7 +26,7 @@ public class LightController : MonoBehaviour
 
     void Start()
     {
-        resizeBackground(); 
+        resizeBackground();
     }
 
     public void updateAllLights(object data)
