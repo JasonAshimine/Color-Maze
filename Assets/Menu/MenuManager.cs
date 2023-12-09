@@ -48,7 +48,7 @@ public class MenuManager : Singleton<MenuManager>
                 break;
             case Menu.Setting:
                 SettingMenu.SetActive(true);
-                ColorMenu.Instance.openMenu();
+                ColorMenu.Instance.OpenMenu();
                 break;
         }
     }

@@ -344,7 +344,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MazeData: {fileID: 11400000, guid: 131b26013b42d8540b63fe84ae98e69c, type: 2}
   _colorData: {fileID: 11400000, guid: c2b336bd3a56d564f8acbbdf937032fc, type: 2}
-  _lightEvent: {fileID: 11400000, guid: 9e9daa34a46fa9a40992494e60902924, type: 2}
+  _lightData: {fileID: 11400000, guid: e90c13c4363c4e94184290aa2c36daf5, type: 2}
   _GoalLayer:
     serializedVersion: 2
     m_Bits: 128

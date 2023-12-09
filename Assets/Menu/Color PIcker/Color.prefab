@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4236516016761184942}
   - component: {fileID: 752955237655842189}
+  - component: {fileID: 7524913735106887470}
   m_Layer: 0
   m_Name: Color
   m_TagString: Untagged
@@ -50,6 +51,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _colorData: {fileID: 11400000, guid: c2b336bd3a56d564f8acbbdf937032fc, type: 2}
+  _lightData: {fileID: 11400000, guid: e90c13c4363c4e94184290aa2c36daf5, type: 2}
   ColorPalette: {fileID: 3601364888247897228}
   Buttons: {fileID: 7223750644794513470}
   Top: {fileID: 836728256806562116}
@@ -59,6 +61,34 @@ MonoBehaviour:
   Center: {fileID: 4504664480604634664}
   Side_Left: {fileID: 7369229733636424928}
   Side_Right: {fileID: 8063161957706700468}
+--- !u!114 &7524913735106887470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6305262874961259508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6ac400fab43ab4493e9cb9ec37e872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 9e9daa34a46fa9a40992494e60902924, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 752955237655842189}
+        m_TargetAssemblyTypeName: ColorMenu, Assembly-CSharp
+        m_MethodName: handleLightEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &7545822386888611571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84,7 +114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1249811932972536967, guid: cf057da96dd29f94b84a9a11d6ab5b46, type: 3}
       propertyPath: ColorPickerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: handleColorSelection
+      value: HandleColorSelection
       objectReference: {fileID: 0}
     - target: {fileID: 1249811932972536967, guid: cf057da96dd29f94b84a9a11d6ab5b46, type: 3}
       propertyPath: ColorPickerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -223,7 +253,7 @@ PrefabInstance:
       objectReference: {fileID: 752955237655842189}
     - target: {fileID: 2654076412046826413, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: handleButton
+      value: HandleButton
       objectReference: {fileID: 0}
     - target: {fileID: 3199635258954142600, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -231,7 +261,7 @@ PrefabInstance:
       objectReference: {fileID: 752955237655842189}
     - target: {fileID: 3199635258954142600, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: handleButton
+      value: HandleButton
       objectReference: {fileID: 0}
     - target: {fileID: 3290772570149800539, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -239,7 +269,7 @@ PrefabInstance:
       objectReference: {fileID: 752955237655842189}
     - target: {fileID: 3290772570149800539, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: handleButton
+      value: HandleButton
       objectReference: {fileID: 0}
     - target: {fileID: 3542534757739044964, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_TargetGraphic
@@ -263,7 +293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4025253090043170210, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: handleSideButton
+      value: HandleSideButton
       objectReference: {fileID: 0}
     - target: {fileID: 4025253090043170210, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -283,7 +313,7 @@ PrefabInstance:
       objectReference: {fileID: 752955237655842189}
     - target: {fileID: 5834302888276113810, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: handleButton
+      value: HandleButton
       objectReference: {fileID: 0}
     - target: {fileID: 6253598378490857331, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_RootOrder
@@ -335,7 +365,7 @@ PrefabInstance:
       objectReference: {fileID: 752955237655842189}
     - target: {fileID: 7553681420930582767, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: handleButton
+      value: HandleButton
       objectReference: {fileID: 0}
     - target: {fileID: 8110615746428015727, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_TargetGraphic
@@ -359,7 +389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8537625054502697385, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: handleSideButton
+      value: HandleSideButton
       objectReference: {fileID: 0}
     - target: {fileID: 8537625054502697385, guid: d490b4d782c6d094bb7327a62622463b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

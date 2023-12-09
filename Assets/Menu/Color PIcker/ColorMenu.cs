@@ -9,6 +9,7 @@ public class ColorMenu : Singleton<ColorMenu>
 {
     public UnityEvent<ColorIntensity, Color> ColorMenuEvent;
     [SerializeField] private ColorDirection _colorData;
+    [SerializeField] private LightDataSet _lightData;
 
 
     [SerializeField] private GameObject ColorPalette;
@@ -31,16 +32,15 @@ public class ColorMenu : Singleton<ColorMenu>
     private void Start()
     {
         Instance = this;
-        updateColor();
+        UpdateColor();
     }
 
-/*    private void OnEnable()
+    private void OnEnable()
     {
-        Side_Left.color = LightController.Instance.Left.color;
-        Side_Right.color = LightController.Instance.Right.color;
-    }*/
+        UpdateSideColor();
+    }
 
-    public Image getImage(colorTypes id)
+    public Image GetImage(colorTypes id)
     {
         switch (id)
         {
@@ -55,58 +55,65 @@ public class ColorMenu : Singleton<ColorMenu>
         }
     }
 
-    public void updateColor(Color color)
+    public void UpdateColor(Color color)
     {
         if (color == Color.clear)
             color = Color.white;
 
         ColorMenuEvent.Invoke(selected, color);
 
+        
         selected.color = color;
-        updateColor();
+        UpdateColor();
+        _lightData.Raise(LightEventType.Color);
     }
-
-    public void updateSideColor(colorTypes id, Color color)
-    {
-        if (id == colorTypes.Left)
-            Side_Left.color = color;
-        else if (id == colorTypes.Right)
-            Side_Right.color = color;
-    }
-
-
-    public void updateColor()
+    public void UpdateColor()
     {
         Top.color = _colorData.Top.color;
         Bot.color = _colorData.Bot.color;
         Left.color = _colorData.Left.color;
         Right.color = _colorData.Right.color;
+        UpdateSideColor();
     }
 
-    public void handleButton(Image obj)
+    public void UpdateSideColor()
     {
-        openColorPaletteMenu();
-
-        selected = getColor(obj.gameObject.name);
+        Side_Left.color = _lightData.Left.color;
+        Side_Right.color = _lightData.Right.color;
     }
 
-    public void handleSideButton(GameObject obj)
+    public void HandleLightEvent(object data)
     {
-       // colorTypes type = ColorManager.getType(obj);
-        //GameManager.Instance.toggleLight(type);
-
-/*        switch (type)
+        switch ((LightEventType)data)
         {
-            case colorTypes.Left:
-                GameManager.Instance.toggleLight(type);
+            case LightEventType.Toggle:
+                UpdateSideColor();
                 break;
-            case colorTypes.Right:
+        }
+    }    
+
+    public void HandleButton(Image obj)
+    {
+        OpenColorPaletteMenu();
+        selected = GetColor(obj.gameObject.name);
+    }
+
+    public void HandleSideButton(GameObject obj)
+    {
+        switch (obj.name)
+        {
+            case "Left":
+                _lightData.toggleLeft = !_lightData.toggleLeft;
                 break;
-        }*/
+            case "Right":
+                _lightData.toggleRight = !_lightData.toggleRight;
+                break;
+        }
+        _lightData.Raise(LightEventType.Toggle);
     }
 
 
-    public ColorIntensity getColor(string name)
+    public ColorIntensity GetColor(string name)
     {
         switch (name)
         {
@@ -121,23 +128,23 @@ public class ColorMenu : Singleton<ColorMenu>
     }
 
 
-    public void openMenu()
+    public void OpenMenu()
     {
         ColorPalette.SetActive(false);
         Buttons.SetActive(true);
     }
 
-    public void openColorPaletteMenu()
+    public void OpenColorPaletteMenu()
     {
         ColorPalette.SetActive(true);
         Buttons.SetActive(false);
     }
 
 
-    public void handleColorSelection(Color color)
+    public void HandleColorSelection(Color color)
     {
-        openMenu();
+        OpenMenu();
 
-        updateColor(color);
+        UpdateColor(color);
     }
 }
