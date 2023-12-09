@@ -22,6 +22,7 @@ namespace Maze
 
         public void Start()
         {
+            _MazeData.nodes.Clear();
             _MazeData.Start = null;
             _MazeData.End = null;
         }

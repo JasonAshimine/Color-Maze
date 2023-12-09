@@ -276,8 +276,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 974528079}
-  - component: {fileID: 974528081}
   - component: {fileID: 974528078}
+  - component: {fileID: 974528080}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -318,7 +318,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &974528081
+--- !u!114 &974528080
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -330,26 +330,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df28d3c9f67889346ad365ebee339351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Top: {r: 1, g: 0, b: 0, a: 1}
-  Bot: {r: 1, g: 0, b: 1, a: 1}
-  Left: {r: 0, g: 0, b: 1, a: 1}
-  Right: {r: 0, g: 1, b: 0, a: 1}
-  Center: {r: 1, g: 1, b: 1, a: 1}
+  _colorData: {fileID: 0}
+  _lightLeft: {fileID: 0}
+  _lightMiddle: {fileID: 0}
+  _lightRight: {fileID: 0}
   ColorPickerEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 301131039}
-        m_TargetAssemblyTypeName: ColorMenu, Assembly-CSharp
-        m_MethodName: updateColor
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1001 &996937187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -545,7 +532,7 @@ PrefabInstance:
     - target: {fileID: 1627162843591155634, guid: f7f7dcd0d1a87694c84a63ea301c60aa, type: 3}
       propertyPath: ColorMenuEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 974528081}
+      objectReference: {fileID: 0}
     - target: {fileID: 1627162843591155634, guid: f7f7dcd0d1a87694c84a63ea301c60aa, type: 3}
       propertyPath: ColorMenuEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -557,7 +544,7 @@ PrefabInstance:
     - target: {fileID: 1627162843591155634, guid: f7f7dcd0d1a87694c84a63ea301c60aa, type: 3}
       propertyPath: ColorPickerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 974528081}
+      objectReference: {fileID: 0}
     - target: {fileID: 1627162843591155634, guid: f7f7dcd0d1a87694c84a63ea301c60aa, type: 3}
       propertyPath: ColorMenuEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -927,6 +914,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3318419227877403095, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
+      propertyPath: _colorLeft
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fe201addab1e5b4bb8781a8f82eea28, type: 2}
+    - target: {fileID: 3318419227877403095, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
+      propertyPath: _colorRight
+      value: 
+      objectReference: {fileID: 11400000, guid: b6aa08810976c6e4b8685d184aa7430a, type: 2}
+    - target: {fileID: 3318419227877403095, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
+      propertyPath: _colorMiddle
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d714a77aacb6a24d9b1fece42af31ec, type: 2}
     - target: {fileID: 3318419227877403095, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
       propertyPath: OnChange.m_PersistentCalls.m_Calls.Array.size
       value: 1

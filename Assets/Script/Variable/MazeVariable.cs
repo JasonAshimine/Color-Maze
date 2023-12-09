@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Game.Events;
+using System.Collections.Generic;
 
 namespace Variable
 {
@@ -12,6 +13,18 @@ namespace Variable
 
         public MazeNode Start { get; set; }
         public MazeNode End { get; set; }
+        public List<MazeNode> nodes { get; set; }
+
+        public void clear()
+        {
+            if (nodes.Count <= 0)
+                return;
+
+            foreach (MazeNode node in nodes)
+                GameObject.Destroy(node.gameObject);
+
+            nodes.Clear();
+        }
 
         public void Raise(Maze.MazeEventType data)
         {
