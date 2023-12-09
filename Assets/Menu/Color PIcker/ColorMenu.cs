@@ -11,20 +11,23 @@ public class ColorMenu : Singleton<ColorMenu>
     [SerializeField] private ColorDirection _colorData;
     [SerializeField] private LightDataSet _lightData;
 
-
     [SerializeField] private GameObject ColorPalette;
     [SerializeField] private GameObject Buttons;
 
-    private ColorIntensity selected;
-
+    [Space()]
     [SerializeField] private Image Top;
     [SerializeField] private Image Bot;
     [SerializeField] private Image Left;
     [SerializeField] private Image Right;
     [SerializeField] private Image Center;
 
+    [Space()]
     [SerializeField] private Image Side_Left;
     [SerializeField] private Image Side_Right;
+    [SerializeField, Range(0.0f, 1f)] 
+    private float _disabledIntensity = 0.5f;
+
+    private ColorIntensity selected;
 
     public bool isButtons => Buttons.activeSelf;
     public bool isColorPalette => ColorPalette.activeSelf;
@@ -77,9 +80,15 @@ public class ColorMenu : Singleton<ColorMenu>
     }
 
     public void UpdateSideColor()
+    {       
+        Side_Left.color = CalcSideColor(_lightData.Left, _lightData.toggleLeft);
+        Side_Right.color = CalcSideColor(_lightData.Right, _lightData.toggleRight);
+    }
+
+    private Color CalcSideColor(ColorIntensity color, bool isOn)
     {
-        Side_Left.color = _lightData.Left.color;
-        Side_Right.color = _lightData.Right.color;
+        float intestity = isOn ? 1f : _disabledIntensity;
+        return color.color * intestity;
     }
 
     public void HandleLightEvent(object data)

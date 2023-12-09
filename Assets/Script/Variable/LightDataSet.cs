@@ -8,8 +8,8 @@ namespace Variable
     [CreateAssetMenu(fileName = "LightDataSet", menuName = "Data/LightDataSet")]
     public class LightDataSet : ScriptableObject
     {
-        public bool toggleLeft;
-        public bool toggleRight;
+        public bool toggleLeft = true;
+        public bool toggleRight = true;
 
         [SerializeField]
         private GameEventData _LightEvent;

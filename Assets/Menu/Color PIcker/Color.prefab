@@ -61,6 +61,7 @@ MonoBehaviour:
   Center: {fileID: 4504664480604634664}
   Side_Left: {fileID: 7369229733636424928}
   Side_Right: {fileID: 8063161957706700468}
+  _disabledIntensity: 0.5
 --- !u!114 &7524913735106887470
 MonoBehaviour:
   m_ObjectHideFlags: 0
