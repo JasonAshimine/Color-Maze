@@ -43,21 +43,6 @@ public class ColorMenu : Singleton<ColorMenu>
         UpdateSideColor();
     }
 
-    public Image GetImage(colorTypes id)
-    {
-        switch (id)
-        {
-            case colorTypes.Top: return Top;
-            case colorTypes.Bot: return Bot;
-            case colorTypes.Left: return Left;
-            case colorTypes.Right: return Right;
-            case colorTypes.Center: return Center;
-            default:
-                Debug.Log(string.Format("Invalid id {0}", id));
-                return null;
-        }
-    }
-
     public void UpdateColor(Color color)
     {
         if (color == Color.clear)
@@ -104,7 +89,7 @@ public class ColorMenu : Singleton<ColorMenu>
     public void HandleButton(Image obj)
     {
         OpenColorPaletteMenu();
-        selected = GetColor(obj.gameObject.name);
+        selected = _colorData.GetColor(obj.gameObject.name);
     }
 
     public void HandleSideButton(GameObject obj)
@@ -120,22 +105,6 @@ public class ColorMenu : Singleton<ColorMenu>
         }
         _lightData.Raise(LightEventType.Toggle);
     }
-
-
-    public ColorIntensity GetColor(string name)
-    {
-        switch (name)
-        {
-            case "Top": return _colorData.Top;
-            case "Bot": return _colorData.Bot;
-            case "Left": return _colorData.Left;
-            case "Right": return _colorData.Right;
-            case "Center": return _colorData.Center;
-        }
-
-        return null;
-    }
-
 
     public void OpenMenu()
     {

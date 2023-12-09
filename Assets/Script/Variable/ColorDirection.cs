@@ -26,9 +26,21 @@ namespace Variable
                 case 1: return Left;
                 case 2: return Bot;
                 case 3: return Right;
+                default: return null;
             }
+        }
 
-            return null;
+        public ColorIntensity GetColor(string name)
+        {
+            switch (name)
+            {
+                case "Top": return Top;
+                case "Bot": return Bot;
+                case "Left": return Left;
+                case "Right": return Right;
+                case "Center": return Center;
+                default: return null;
+            }
         }
 
     }

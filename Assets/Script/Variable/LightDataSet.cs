@@ -18,6 +18,18 @@ namespace Variable
         public ColorIntensity Left;
         public ColorIntensity Right;
 
+        public ColorIntensity GetColor(string name)
+        {
+            switch (name)
+            {
+                case "Left": return Left;
+                case "Right": return Right;
+                case "Middle": 
+                case "Center": return Middle;
+                default: return null;
+            }
+        }
+
         public void Raise(LightEventType type)
         {
             _LightEvent.Raise(type);
