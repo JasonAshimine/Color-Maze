@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Variable;
 
 namespace Maze
 {
@@ -13,11 +13,10 @@ namespace Maze
     public class MazeGenerator : MonoBehaviour
     {
         [SerializeField] private MazeNode nodePrefab;
-        [SerializeField] private Variable.MazeVariable _MazeData;
+        [SerializeField] private MazeVariable _MazeData;
 
         private List<int> _currentPath;
         private List<int> _completedNodes;
-        private List<MazeNode> _nodes;
 
         private int count = 0;
 
@@ -35,35 +34,23 @@ namespace Maze
                     Generator(_MazeData.MapSize);
                     break;
                 case MazeEventType.Clear:
-                    clear();
+                    _MazeData.clear();
                     break;
             }
-        }
-
-
-        public void clear()
-        {
-            if (_nodes == null)
-                return;
-
-            foreach (MazeNode node in _nodes)
-                GameObject.Destroy(node.gameObject);
-
-            _nodes.Clear();
         }
 
 
         private void markAsCurrent(int index)
         {
             _currentPath.Add(index);
-            _nodes[index].SetState(MazeNode.NodeState.Current);
+            _MazeData.nodes[index].SetState(MazeNode.NodeState.Current);
         }
 
         private void markAsComplete(int index)
         {
             updateCount();
             _completedNodes.Add(index);
-            _nodes[index].SetState(MazeNode.NodeState.Completed);
+            _MazeData.nodes[index].SetState(MazeNode.NodeState.Completed);
             _currentPath.RemoveAt(_currentPath.Count - 1);
         }
 
@@ -72,7 +59,7 @@ namespace Maze
             if (_currentPath.Count > count)
             {
                 count = _currentPath.Count;
-                _MazeData.End = _nodes[lastCurrent];
+                _MazeData.End = _MazeData.nodes[lastCurrent];
             }
         }
 
@@ -80,22 +67,22 @@ namespace Maze
 
         public MazeNode RandomNode()
         {
-            return _nodes[Random.Range(0, _nodes.Count)];
+            return _MazeData.nodes[Random.Range(0, _MazeData.nodes.Count)];
         }
 
         public void Generator(Vector2Int size)
         {
-            _nodes = generateNodeList(size);
+            _MazeData.nodes = generateNodeList(size);
             _currentPath = new List<int>();
             _completedNodes = new List<int>();
 
-            markAsCurrent(Random.Range(0, _nodes.Count));
+            markAsCurrent(Random.Range(0, _MazeData.nodes.Count));
 
             count = 0;
-            _MazeData.Start = _nodes[lastCurrent];
+            _MazeData.Start = _MazeData.nodes[lastCurrent];
 
 
-            while (_completedNodes.Count < _nodes.Count)
+            while (_completedNodes.Count < _MazeData.nodes.Count)
             {
                 List<int> possibleNextNodes = new List<int>();
                 List<MazeNode.Walls> possibleDirections = new List<MazeNode.Walls>();
@@ -131,8 +118,8 @@ namespace Maze
 
                     MazeNode.Walls wallSide = possibleDirections[chosenDirection];
 
-                    _nodes[currentNodeIndex].RemoveWallInverse(wallSide);
-                    _nodes[_currentPath[_currentPath.Count - 1]].RemoveWall(wallSide);
+                    _MazeData.nodes[currentNodeIndex].RemoveWallInverse(wallSide);
+                    _MazeData.nodes[_currentPath[_currentPath.Count - 1]].RemoveWall(wallSide);
 
                     markAsCurrent(currentNodeIndex);
                 }
