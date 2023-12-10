@@ -44,6 +44,7 @@ public class LightController : MonoBehaviour
                 break;
             case LightEventType.Toggle:
                 Left.gameObject.SetActive(_lightData.toggleLeft);
+                Middle.gameObject.SetActive(_lightData.toggleMiddle);
                 Right.gameObject.SetActive(_lightData.toggleRight);
                 break;
             case LightEventType.ChangeLayer:
