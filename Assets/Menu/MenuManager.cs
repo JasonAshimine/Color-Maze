@@ -54,7 +54,7 @@ public class MenuManager : MonoBehaviour
                 break;
             case Menu.Setting:
                 SettingMenu.SetActive(true);
-                ColorMenu.Instance.OpenMenu();
+                colorMenu.GetComponent<ColorMenu>().OpenMenu();
                 break;
         }
     }
@@ -88,6 +88,9 @@ public class MenuManager : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// OnMenu called from PlayerInput component
+    /// </summary>
     public void OnMenu()
     {
         if (SettingMenu.activeSelf)

@@ -5,9 +5,8 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using Variable;
 
-public class ColorMenu : Singleton<ColorMenu>
+public class ColorMenu : MonoBehaviour
 {
-    public UnityEvent<ColorIntensity, Color> ColorMenuEvent;
     [SerializeField] private ColorDirection _colorData;
     [SerializeField] private LightDataSet _lightData;
 
@@ -34,7 +33,6 @@ public class ColorMenu : Singleton<ColorMenu>
 
     private void Start()
     {
-        Instance = this;
         UpdateColor();
     }
 
@@ -47,9 +45,6 @@ public class ColorMenu : Singleton<ColorMenu>
     {
         if (color == Color.clear)
             color = Color.white;
-
-        ColorMenuEvent.Invoke(selected, color);
-
         
         selected.color = color;
         UpdateColor();
