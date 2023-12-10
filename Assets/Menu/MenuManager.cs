@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using Variable;
 
 public enum Menu
 {
@@ -13,31 +13,37 @@ public enum Menu
     Closed
 }
 
-public class MenuManager : Singleton<MenuManager>
+public class MenuManager : MonoBehaviour
 {
+    [SerializeField] private MenuDataSet _menuData;
+    [SerializeField] private StateDataSet _stateData;
+
     [SerializeField] private GameObject EndMenu;
     [SerializeField] private GameObject MainMenu;
     [SerializeField] private GameObject SettingMenu;
     [SerializeField] private GameObject colorMenu;
 
-
-    private Menu _state;
-
-
-    void Start()
-    { 
-        Instance = this;
-    }
-
-    public void toggle(Menu type, bool toggle)
+    private void toggle(Menu type, bool toggle)
     {
         get(type).SetActive(toggle);
     }
 
-    public void open(Menu type)
+    public void handleMenuEvent(object data)
     {
-        Debug.Log("Open Menu " + type);
+        //Debug.Log("MenuToggle " + _menuData.state + _menuData.toggle);
+        if (_menuData.toggle)
+        {
+            open(_menuData.state);
+        }
+        else
+        {
+            close(_menuData.state);
+        }        
+    }
 
+
+    private void open(Menu type)
+    {
         switch (type)
         {
             case Menu.End:
@@ -48,13 +54,13 @@ public class MenuManager : Singleton<MenuManager>
                 break;
             case Menu.Setting:
                 SettingMenu.SetActive(true);
-                ColorMenu.Instance.openMenu();
+                colorMenu.GetComponent<ColorMenu>().OpenMenu();
                 break;
         }
     }
 
 
-    public void close(Menu type)
+    private void close(Menu type)
     {
         switch (type)
         {
@@ -70,7 +76,7 @@ public class MenuManager : Singleton<MenuManager>
         }
     }
 
-    public GameObject get(Menu type)
+    private GameObject get(Menu type)
     {
         switch (type)
         {
@@ -82,31 +88,19 @@ public class MenuManager : Singleton<MenuManager>
         return null;
     }
 
-    public void OnMove(InputValue value)
-    {
-        if (!SettingMenu.activeSelf || !ColorMenu.Instance.isButtons)
-            return;
-
-        Vector2 dir = value.Get<Vector2>();
-        colorTypes id = colorTypes.Invalid;
-
-        if (dir.x == 1)
-            id = colorTypes.Right;
-        else if (dir.x == -1)
-            id = colorTypes.Left;
-        else if (dir.y == 1)
-            id = colorTypes.Top;
-        else if (dir.y == -1)
-            id = colorTypes.Bot;
-
-        ColorMenu.Instance.handleButton(id);
-    }
-
+    /// <summary>
+    /// OnMenu called from PlayerInput component
+    /// </summary>
     public void OnMenu()
     {
-        if(SettingMenu.activeSelf)
-            GameManager.Instance.ExitGameStage(GameStage.Menu);
+        if (SettingMenu.activeSelf)
+        {
+            _stateData.Cancel(GameStage.Menu);
+        }
         else
-            GameManager.Instance.SetGameStage(GameStage.Menu);
+        {
+            _stateData.Raise(GameStage.Menu);
+        }
+        
     }
 }

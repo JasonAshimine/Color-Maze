@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 891c65bd3f02ae34cb46ef1b8d3ee448, type: 3}
+  m_Name: LightDataSet
+  m_EditorClassIdentifier: 
+  toggleLeft: 0
+  toggleRight: 0
+  _LightEvent: {fileID: 11400000, guid: 9e9daa34a46fa9a40992494e60902924, type: 2}
+  Middle: {fileID: 11400000, guid: 6d714a77aacb6a24d9b1fece42af31ec, type: 2}
+  Left: {fileID: 11400000, guid: 3fe201addab1e5b4bb8781a8f82eea28, type: 2}
+  Right: {fileID: 11400000, guid: b6aa08810976c6e4b8685d184aa7430a, type: 2}

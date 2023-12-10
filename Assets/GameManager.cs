@@ -1,26 +1,43 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.SceneManagement;
+using Game.Events;
+using Maze;
+using Variable;
 
 public enum GameStage
 {
     Invalid,
     Menu,
     Gameplay,
-    EndGame
+    EndGame,
+    Cancel
 }
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
-    public static event System.Action GameStateChangeEvent;
+    [SerializeField]
+    private MazeVariable _MazeData;
 
-    private GameStage _gameStage = GameStage.Invalid;
-    private GameStage _previousStage = GameStage.Invalid;
+    [SerializeField]
+    private ColorDirection _colorData;
 
-    public GameStage CurrentStage => _gameStage;
+    [SerializeField]
+    private LightDataSet _lightData;
+
+    [SerializeField]
+    private MenuDataSet _menuData;
+
+    [SerializeField]
+    private StateDataSet _stateData;
+
+    [SerializeField]
+    private LayerMask _GoalLayer;
+
+    //private GameStage _gameStage = GameStage.Invalid;
+    //private GameStage _previousStage = GameStage.Invalid;
+
+    //public GameStage CurrentStage => _gameStage;
 
     public GameStage EditorDefaultStage = GameStage.Gameplay;
     public GameObject PlayerPrefab;
@@ -28,13 +45,15 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] Vector2Int MazeSize;
 
-    private int ColorIndex = 0;
     private GameObject Player;
+    private GameObject EndGoal;
 
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
+        _MazeData.MapSize = MazeSize;
+        _stateData.Reset();
+        _colorData.Reset();
 
         GameStage InitialStage = GameStage.Gameplay;
 
@@ -42,82 +61,76 @@ public class GameManager : Singleton<GameManager>
                 InitialStage = EditorDefaultStage;
         #endif
 
-        SetGameStage(InitialStage);        
+        _stateData.Raise(InitialStage);     
     }
 
-    private void OnEnable()
+
+    public void handlePlayerMovement(object data)
     {
-        movement.OnUpdate += handlePlayerMovement;
+        Direction dir = (Direction)data;
+        int index = (int) (dir.direction / 90);
+
+        _lightData.Left     = GetColor(dir.left, index + 1);
+        _lightData.Middle   = GetColor(dir.forward, index);
+        _lightData.Right    = GetColor(dir.right, index - 1);
+
+        _lightData.Raise(LightEventType.Color);
+
+        //Debug.Log(dir.forward.collider.name + " " + Middle);
     }
 
-    private void OnDisable()
+    private ColorIntensity GetColor(RaycastHit2D hit, int index)
     {
-        movement.OnUpdate -= handlePlayerMovement;
+        ColorIntensity color =  hit.collider.gameObject.tag == EndPrefab.tag
+            ? _colorData.Center : _colorData.GetColor(index);
+
+
+        color.intensity = hit.distance;
+        return color;
     }
 
-    private void handlePlayerMovement(float rotation, float[] distance, GameObject FirstHit)
+    public void handleStateChange(object _data)
     {
-        ColorIndex = (int)rotation / 90;
-
-        if (FirstHit.tag == "Finish")
-            RenderColor(distance, ColorManager.Instance.GetColor(colorTypes.Center));
+        if(_stateData.isCancel)
+        {
+            CancelGameStage();
+        }
         else
-            RenderColor(distance, ColorManager.Instance.GetColor(ColorIndex));
+        {
+            SetGameStage(_stateData.state);
+        }        
     }
 
-
-    public void RenderColor()
+    public void CancelGameStage()
     {
-        Player?.GetComponent<movement>().trigger();
-    }
-
-    private void RenderColor(float[] distance, Color forwardColor)
-    {
-        LightController.Instance.updateMiddle(forwardColor, distance[1]);
-
-        Color left = ColorManager.Instance.GetColor(ColorIndex + 1);
-        Color right = ColorManager.Instance.GetColor(ColorIndex - 1);
-
-        LightController.Instance.updateLeft(left, distance[0]);
-        LightController.Instance.updateRight(right, distance[2]);
+        OnExitStage(_stateData.state);
+        GameStage state = _stateData.state;
+        _stateData.state = _stateData.previous;
+        _stateData.previous = state;
     }
 
     public void SetGameStage(GameStage newGameStage)
     {
-        if (newGameStage != _gameStage)
+        if (newGameStage != _stateData.previous)
         {
-            OnExitStage(_gameStage, newGameStage);
+            OnExitStage(_stateData.previous);
             OnEnterStage(newGameStage);
-            _gameStage = newGameStage;
         }
     } 
 
-    public void ExitGameStage(GameStage currentStage)
+    public void OnExitStage(GameStage oldGameStage)
     {
-        if(currentStage == _gameStage)
-        {
-            switch (_gameStage)
-            {
-                case GameStage.Menu:
-                    SetGameStage(_previousStage);
-                    break;
-            }
-        }        
-    }
-
-    public void OnExitStage(GameStage oldGameStage, GameStage newGameStage)
-    {
+        //Debug.Log("Exit Stage: " + oldGameStage);
         switch (oldGameStage)
         {
             case GameStage.Gameplay:
-                
                 break;
 
             case GameStage.EndGame:
-                MenuManager.Instance.close(Menu.End);
+                _menuData.Raise(Menu.End, false);
                 break;
             case GameStage.Menu:
-                MenuManager.Instance.close(Menu.Setting);
+                _menuData.Raise(Menu.Setting, false);
                 ResumeGame();
                 break;
         }
@@ -125,56 +138,40 @@ public class GameManager : Singleton<GameManager>
 
     public void OnEnterStage(GameStage newGameStage)
     {
-        Debug.Log(newGameStage);
-
-        GameStateChangeEvent?.Invoke();
+        //Debug.Log("Enter Stage: " + newGameStage);
 
         switch (newGameStage)
         {
             case GameStage.Gameplay:
-                initStage();
+                InitStage();
                 break;
 
             case GameStage.EndGame:
-                MazeGenerator.Instance.clear();
-                MenuManager.Instance.open(Menu.End);
+                ClearStage();
+                _menuData.Raise(Menu.End, true);
                 break;
             case GameStage.Menu:
-                MenuManager.Instance.open(Menu.Setting);
+                _menuData.Raise(Menu.Setting, true);
                 PauseGame();
                 break;
         }
     }
 
-    private void initStage()
+    private void InitStage()
     {
-        MazeGenerator.Instance.clear();
-        MazeGenerator.Instance.Generator(MazeSize);
-
-        Player = Instantiate(PlayerPrefab, MazeGenerator.Instance.start.transform.position, Quaternion.identity, MazeGenerator.Instance.transform);
-        Instantiate(EndPrefab, MazeGenerator.Instance.end.transform.position, Quaternion.identity, MazeGenerator.Instance.transform);
+        ClearStage();
+        _MazeData.Raise(MazeEventType.Create);
+        
+        Player = Instantiate(PlayerPrefab, _MazeData.Start.transform.position, Quaternion.identity, gameObject.transform);
+        EndGoal = Instantiate(EndPrefab, _MazeData.End.transform.position, Quaternion.identity, gameObject.transform);
     }
 
-    public Light2D getLight(colorTypes id)
+    private void ClearStage()
     {
-        switch (id)
-        {
-            case colorTypes.Left: return LightController.Instance.Left;
-            case colorTypes.Right: return LightController.Instance.Right;
-            case colorTypes.Center: return LightController.Instance.Middle;
-        }
-        return null;
-    }
+        _MazeData.Raise(MazeEventType.Clear);
 
-    public bool toggleLight(colorTypes id)
-    {
-        GameObject obj = getLight(id)?.gameObject;
-
-        if (obj == null)
-            return true;
-
-        obj.SetActive(!obj.activeSelf);
-        return obj.activeSelf;
+        foreach (Transform node in transform)
+            GameObject.Destroy(node.gameObject);
     }
 
     void PauseGame()
@@ -186,21 +183,19 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1;
     }
 
+    /// <summary>
+    /// Debugging keys commands
+    /// </summary>
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            initStage();
+            InitStage();
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            SpriteRenderer renderer = LightController.Instance.GetComponent<SpriteRenderer>();
-
-            if (renderer.sortingOrder == 0)
-                renderer.sortingOrder = 1;
-            else
-                renderer.sortingOrder = 0;
+            _lightData.Raise(LightEventType.ChangeLayer);
         }
     }
 }
