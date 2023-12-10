@@ -14,7 +14,7 @@ public enum GameStage
     Cancel
 }
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private MazeVariable _MazeData;
@@ -51,8 +51,6 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
-
         _MazeData.MapSize = MazeSize;
         _stateData.Reset();
         _colorData.Reset();
@@ -185,6 +183,9 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1;
     }
 
+    /// <summary>
+    /// Debugging keys commands
+    /// </summary>
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -192,14 +193,9 @@ public class GameManager : Singleton<GameManager>
             InitStage();
         }
 
-/*        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            SpriteRenderer renderer = LightController.Instance.GetComponent<SpriteRenderer>();
-
-            if (renderer.sortingOrder == 0)
-                renderer.sortingOrder = 1;
-            else
-                renderer.sortingOrder = 0;
-        }*/
+            _lightData.Raise(LightEventType.ChangeLayer);
+        }
     }
 }

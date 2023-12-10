@@ -872,7 +872,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: 0e0a250e-22e2-486f-8c38-8759f619cdbc
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &1636612313
@@ -987,7 +987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3318419227877402921, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
       propertyPath: m_SortingOrder
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3318419227877403094, guid: ad2df9217c167c6479fb2da6a6ef3b13, type: 3}
       propertyPath: m_RootOrder

@@ -9,7 +9,8 @@ using UnityEngine.Rendering.Universal;
 public enum LightEventType
 {
     Toggle,
-    Color
+    Color,
+    ChangeLayer,
 }
 
 public class LightController : MonoBehaviour
@@ -23,11 +24,13 @@ public class LightController : MonoBehaviour
     [SerializeField] private Light2D Middle;
     [SerializeField] private Light2D Right;
 
+    private SpriteRenderer _spriteRenderer;
 
     void Start()
     {
         resizeBackground();
         _lightData.Reset();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void updateAllLights(object data)
@@ -43,7 +46,18 @@ public class LightController : MonoBehaviour
                 Left.gameObject.SetActive(_lightData.toggleLeft);
                 Right.gameObject.SetActive(_lightData.toggleRight);
                 break;
+            case LightEventType.ChangeLayer:
+                toggleRenderLayer();
+                break;
         }
+    }
+
+    private void toggleRenderLayer()
+    {
+        if (_spriteRenderer.sortingOrder == 0)
+            _spriteRenderer.sortingOrder = 1;
+        else
+            _spriteRenderer.sortingOrder = 0;
     }
 
     public void updateLight(Light2D light, ColorIntensity data)
