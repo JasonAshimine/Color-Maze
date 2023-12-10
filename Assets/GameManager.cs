@@ -10,13 +10,12 @@ public enum GameStage
     Invalid,
     Menu,
     Gameplay,
-    EndGame
+    EndGame,
+    Cancel
 }
 
 public class GameManager : Singleton<GameManager>
 {
-    public static event System.Action GameStateChangeEvent;
-
     [SerializeField]
     private MazeVariable _MazeData;
 
@@ -27,12 +26,18 @@ public class GameManager : Singleton<GameManager>
     private LightDataSet _lightData;
 
     [SerializeField]
+    private MenuDataSet _menuData;
+
+    [SerializeField]
+    private StateDataSet _stateData;
+
+    [SerializeField]
     private LayerMask _GoalLayer;
 
-    private GameStage _gameStage = GameStage.Invalid;
-    private GameStage _previousStage = GameStage.Invalid;
+    //private GameStage _gameStage = GameStage.Invalid;
+    //private GameStage _previousStage = GameStage.Invalid;
 
-    public GameStage CurrentStage => _gameStage;
+    //public GameStage CurrentStage => _gameStage;
 
     public GameStage EditorDefaultStage = GameStage.Gameplay;
     public GameObject PlayerPrefab;
@@ -49,15 +54,17 @@ public class GameManager : Singleton<GameManager>
         Instance = this;
 
         _MazeData.MapSize = MazeSize;
+        _stateData.state = GameStage.Invalid;
+        _stateData.previous = GameStage.Invalid;
 
         GameStage InitialStage = GameStage.Gameplay;
 
         #if UNITY_EDITOR
                 InitialStage = EditorDefaultStage;
-#endif
+        #endif
 
         ResetColors();
-        SetGameStage(InitialStage);        
+        _stateData.Raise(InitialStage);     
     }
 
     private void ResetColors()
@@ -94,42 +101,47 @@ public class GameManager : Singleton<GameManager>
         return color;
     }
 
-    public void SetGameStage(GameStage newGameStage)
+    public void handleStateChange(object _data)
     {
-        if (newGameStage != _gameStage)
+        if(_stateData.isCancel)
         {
-            OnExitStage(_gameStage, newGameStage);
-            OnEnterStage(newGameStage);
-            _gameStage = newGameStage;
+            CancelGameStage();
         }
-    } 
-
-    public void ExitGameStage(GameStage currentStage)
-    {
-        if(currentStage == _gameStage)
+        else
         {
-            switch (_gameStage)
-            {
-                case GameStage.Menu:
-                    SetGameStage(_previousStage);
-                    break;
-            }
+            SetGameStage(_stateData.state);
         }        
     }
 
-    public void OnExitStage(GameStage oldGameStage, GameStage newGameStage)
+    public void CancelGameStage()
+    {
+        OnExitStage(_stateData.state);
+        GameStage state = _stateData.state;
+        _stateData.state = _stateData.previous;
+        _stateData.previous = state;
+    }
+
+    public void SetGameStage(GameStage newGameStage)
+    {
+        if (newGameStage != _stateData.previous)
+        {
+            OnExitStage(_stateData.state);
+            OnEnterStage(newGameStage);
+        }
+    } 
+
+    public void OnExitStage(GameStage oldGameStage)
     {
         switch (oldGameStage)
         {
             case GameStage.Gameplay:
-                
                 break;
 
             case GameStage.EndGame:
-                MenuManager.Instance.close(Menu.End);
+                _menuData.Raise(Menu.End, false);
                 break;
             case GameStage.Menu:
-                MenuManager.Instance.close(Menu.Setting);
+                _menuData.Raise(Menu.Setting, false);
                 ResumeGame();
                 break;
         }
@@ -139,8 +151,6 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log(newGameStage);
 
-        GameStateChangeEvent?.Invoke();
-
         switch (newGameStage)
         {
             case GameStage.Gameplay:
@@ -149,10 +159,10 @@ public class GameManager : Singleton<GameManager>
 
             case GameStage.EndGame:
                 ClearStage();
-                MenuManager.Instance.open(Menu.End);
+                _menuData.Raise(Menu.End, true);
                 break;
             case GameStage.Menu:
-                MenuManager.Instance.open(Menu.Setting);
+                _menuData.Raise(Menu.Setting, true);
                 PauseGame();
                 break;
         }

@@ -28,7 +28,6 @@ namespace Variable
 
         public void Raise(Maze.MazeEventType data)
         {
-            Debug.Log(data);
             MazeEvent.Raise(data);
         }
     }
