@@ -13,9 +13,10 @@ namespace Variable
 
         public AudioClip DefaultMusic;
 
+        public int menuIndex = 0;
+
         public void Play(AudioClip audio)
         {
-            Raise(audio);
         }
 
         public void Stop(AudioClip audio)

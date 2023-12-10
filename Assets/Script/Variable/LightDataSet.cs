@@ -9,8 +9,9 @@ namespace Variable
     public class LightDataSet : ScriptableObject
     {
         public bool toggleLeft = true;
+        public bool toggleMiddle = true;
         public bool toggleRight = true;
-
+        
         [SerializeField]
         private GameEventData _LightEvent;
 
@@ -38,6 +39,7 @@ namespace Variable
         public void Reset()
         {
             toggleLeft = true;
+            toggleMiddle = true;
             toggleRight = true;
         }
     }

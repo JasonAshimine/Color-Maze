@@ -4,10 +4,18 @@ using UnityEngine;
 using Variable;
 
 
+public enum SoundEventType 
+{
+    Music,
+    Volume
+}
+
+
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private SoundDataSet _soundData;
     [SerializeField] private LightDataSet _lightData;
+    [SerializeField] private List<AudioClip> _soundList;
 
     [SerializeField, Range(0f, 1f)] 
     private float _panMax = 0.8f;
@@ -23,6 +31,7 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         _audioSource = GetComponent<AudioSource>();
+        ChangeMusic(_soundData.menuIndex);
     }
 
     public void Update()
@@ -35,6 +44,19 @@ public class SoundManager : MonoBehaviour
         if(_soundData.musicLevel.toggle != _audioSource.isPlaying)
         {
             ToggleMusic();
+        }
+    }
+
+    public void HandleEvent(object data)
+    {
+        Debug.Log((SoundEventType)data);
+        switch ((SoundEventType)data) 
+        {
+            case SoundEventType.Music:
+                ChangeMusic(_soundData.menuIndex);
+                break;
+            case SoundEventType.Volume:
+                break;
         }
     }
 
@@ -59,6 +81,20 @@ public class SoundManager : MonoBehaviour
 
         return Mathf.Lerp(_frontMin, _frontMax, front / 5f);
     }*/
+
+    private void ChangeMusic(int index)
+    {
+        if (!_soundData.musicLevel.toggle)
+        {
+            return;
+        }
+
+        if(index >= 0 && index < _soundList.Count)
+        {
+            Debug.Log(_soundList[index]);
+            ChangeMusic(_soundList[index]);
+        }
+    }
 
     private void ChangeMusic(AudioClip audioClip)
     {
