@@ -148,6 +148,10 @@ public class GameManager : MonoBehaviour
 
             case GameStage.EndGame:
                 ClearStage();
+                _lightData.Left = _colorData.Center;
+                _lightData.Right = _colorData.Center;
+                _lightData.Middle = _colorData.Center;
+                _lightData.Raise(LightEventType.Color);
                 _menuData.Raise(Menu.End, true);
                 break;
             case GameStage.Menu:
