@@ -34,6 +34,12 @@ namespace Variable
         {
             _LightEvent.Raise(type);
         }
+
+        public void Reset()
+        {
+            toggleLeft = true;
+            toggleRight = true;
+        }
     }
 }
 

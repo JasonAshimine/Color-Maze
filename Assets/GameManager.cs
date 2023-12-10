@@ -54,8 +54,8 @@ public class GameManager : Singleton<GameManager>
         Instance = this;
 
         _MazeData.MapSize = MazeSize;
-        _stateData.state = GameStage.Invalid;
-        _stateData.previous = GameStage.Invalid;
+        _stateData.Reset();
+        _colorData.Reset();
 
         GameStage InitialStage = GameStage.Gameplay;
 
@@ -63,17 +63,7 @@ public class GameManager : Singleton<GameManager>
                 InitialStage = EditorDefaultStage;
         #endif
 
-        ResetColors();
         _stateData.Raise(InitialStage);     
-    }
-
-    private void ResetColors()
-    {
-        _colorData.Center.color = Color.white;
-        _colorData.Top.color = Color.red;
-        _colorData.Bot.color = Color.green;
-        _colorData.Left.color = Color.blue;
-        _colorData.Right.color = Color.yellow;
     }
 
 
@@ -125,13 +115,14 @@ public class GameManager : Singleton<GameManager>
     {
         if (newGameStage != _stateData.previous)
         {
-            OnExitStage(_stateData.state);
+            OnExitStage(_stateData.previous);
             OnEnterStage(newGameStage);
         }
     } 
 
     public void OnExitStage(GameStage oldGameStage)
     {
+        Debug.Log("Exit Stage: " + oldGameStage);
         switch (oldGameStage)
         {
             case GameStage.Gameplay:
@@ -149,7 +140,7 @@ public class GameManager : Singleton<GameManager>
 
     public void OnEnterStage(GameStage newGameStage)
     {
-        Debug.Log(newGameStage);
+        Debug.Log("Enter Stage: " + newGameStage);
 
         switch (newGameStage)
         {

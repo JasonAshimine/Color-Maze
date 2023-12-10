@@ -33,5 +33,12 @@ namespace Variable
 
             base.Raise(type);
         }
+
+        public void Reset()
+        {
+            isCancel = false;
+            previous = GameStage.Invalid;
+            state = GameStage.Invalid;
+        }
     }
 }

@@ -43,6 +43,15 @@ namespace Variable
             }
         }
 
+        public void Reset()
+        {
+            Center.color = Color.white;
+            Top.color = Color.red;
+            Bot.color = Color.green;
+            Left.color = Color.blue;
+            Right.color = Color.yellow;
+        }
+
     }
 }
 

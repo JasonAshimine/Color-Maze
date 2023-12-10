@@ -30,6 +30,7 @@ public class MenuManager : MonoBehaviour
 
     public void handleMenuEvent(object data)
     {
+        Debug.Log("MenuToggle " + _menuData.state + _menuData.toggle);
         if (_menuData.toggle)
         {
             open(_menuData.state);
