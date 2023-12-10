@@ -59,6 +59,7 @@ public class ColorMenu : Singleton<ColorMenu>
     {
         Top.color = _colorData.Top.color;
         Bot.color = _colorData.Bot.color;
+        Center.color = _colorData.Center.color;
         Left.color = _colorData.Left.color;
         Right.color = _colorData.Right.color;
         UpdateSideColor();

@@ -23,14 +23,14 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject SettingMenu;
     [SerializeField] private GameObject colorMenu;
 
-    public void toggle(Menu type, bool toggle)
+    private void toggle(Menu type, bool toggle)
     {
         get(type).SetActive(toggle);
     }
 
     public void handleMenuEvent(object data)
     {
-        Debug.Log("MenuToggle " + _menuData.state + _menuData.toggle);
+        //Debug.Log("MenuToggle " + _menuData.state + _menuData.toggle);
         if (_menuData.toggle)
         {
             open(_menuData.state);
@@ -42,7 +42,7 @@ public class MenuManager : MonoBehaviour
     }
 
 
-    public void open(Menu type)
+    private void open(Menu type)
     {
         switch (type)
         {
@@ -60,7 +60,7 @@ public class MenuManager : MonoBehaviour
     }
 
 
-    public void close(Menu type)
+    private void close(Menu type)
     {
         switch (type)
         {
@@ -76,7 +76,7 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public GameObject get(Menu type)
+    private GameObject get(Menu type)
     {
         switch (type)
         {

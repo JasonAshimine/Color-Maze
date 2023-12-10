@@ -122,7 +122,7 @@ public class GameManager : Singleton<GameManager>
 
     public void OnExitStage(GameStage oldGameStage)
     {
-        Debug.Log("Exit Stage: " + oldGameStage);
+        //Debug.Log("Exit Stage: " + oldGameStage);
         switch (oldGameStage)
         {
             case GameStage.Gameplay:
@@ -140,7 +140,7 @@ public class GameManager : Singleton<GameManager>
 
     public void OnEnterStage(GameStage newGameStage)
     {
-        Debug.Log("Enter Stage: " + newGameStage);
+        //Debug.Log("Enter Stage: " + newGameStage);
 
         switch (newGameStage)
         {
