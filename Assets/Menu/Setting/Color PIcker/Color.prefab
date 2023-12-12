@@ -47,9 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e00263f11591cda4699963dcab0d6400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColorMenuEvent:
-    m_PersistentCalls:
-      m_Calls: []
   _colorData: {fileID: 11400000, guid: c2b336bd3a56d564f8acbbdf937032fc, type: 2}
   _lightData: {fileID: 11400000, guid: e90c13c4363c4e94184290aa2c36daf5, type: 2}
   ColorPalette: {fileID: 3601364888247897228}

@@ -58,7 +58,9 @@ public class GameManager : MonoBehaviour
         GameStage InitialStage = GameStage.Gameplay;
 
         #if UNITY_EDITOR
-                InitialStage = EditorDefaultStage;
+            InitialStage = EditorDefaultStage;
+            AudioSource audio = GameObject.FindAnyObjectByType<AudioSource>();
+        audio.enabled = false;
         #endif
 
         _stateData.Raise(InitialStage);     
@@ -187,6 +189,19 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
+
+    private void togglePlayer(bool state)
+    {
+        SpriteRenderer sp = Player.GetComponent<SpriteRenderer>();
+        sp.enabled = state;
+    }
+
+    private void toggleVisible(GameObject obj,  bool state)
+    {
+        obj.GetComponentInChildren<SpriteRenderer>();
+    }
+
+
     /// <summary>
     /// Debugging keys commands
     /// </summary>
@@ -200,6 +215,12 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             _lightData.Raise(LightEventType.ChangeLayer);
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            MazeNode node = _MazeData.get(Player.transform.position);
+            Debug.Log(node.count);
         }
     }
 }

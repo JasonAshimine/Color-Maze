@@ -18,7 +18,7 @@ namespace Maze
         private List<int> _currentPath;
         private List<int> _completedNodes;
 
-        private int count = 0;
+        private int max_distance = 0;
 
         public void Start()
         {
@@ -52,15 +52,16 @@ namespace Maze
             updateCount();
             _completedNodes.Add(index);
             _MazeData.nodes[index].SetState(MazeNode.NodeState.Completed);
+            _MazeData.nodes[index].count = _currentPath.Count - 1;
             _currentPath.RemoveAt(_currentPath.Count - 1);
         }
 
         private void updateCount()
         {
-            if (_currentPath.Count > count)
+            if (_currentPath.Count > max_distance)
             {
-                count = _currentPath.Count;
-                _MazeData.End = _MazeData.nodes[lastCurrent];
+                max_distance = _currentPath.Count;
+                _MazeData.Start = _MazeData.nodes[lastCurrent];
             }
         }
 
@@ -79,8 +80,8 @@ namespace Maze
 
             markAsCurrent(Random.Range(0, _MazeData.nodes.Count));
 
-            count = 0;
-            _MazeData.Start = _MazeData.nodes[lastCurrent];
+            max_distance = 0;
+            _MazeData.End = _MazeData.nodes[lastCurrent];
 
 
             while (_completedNodes.Count < _MazeData.nodes.Count)

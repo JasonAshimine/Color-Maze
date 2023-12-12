@@ -15,6 +15,20 @@ namespace Variable
         public MazeNode End { get; set; }
         public List<MazeNode> nodes { get; set; }
 
+        public ContactFilter2D wallFilter;
+        public ContactFilter2D floorFilter;
+
+        public MazeNode get(Vector2 position)
+        {
+            Vector2Int pos = Vector2Int.RoundToInt(position);
+            int x = pos.x + MapSize.x / 2;
+            int y = pos.y + MapSize.y / 2;   
+
+            int index = y + x * MapSize.y;
+
+            return nodes[index];
+        }
+
         public void clear()
         {
             if (nodes.Count <= 0)

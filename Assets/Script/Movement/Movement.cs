@@ -26,7 +26,7 @@ public class Movement : MonoBehaviour
         trigger();
     }
 
-    public void trigger()
+    private void trigger()
     {
         _forwardEvent.Raise(new Direction(transform.rotation.eulerAngles.z, DirLeft, DirFront, DirRight));
     }
@@ -36,9 +36,9 @@ public class Movement : MonoBehaviour
         return Physics2D.Raycast(transform.position, direction, 99f, DetectLayer);
     }
 
-    public RaycastHit2D DirFront => Raycast(transform.up);
-    public RaycastHit2D DirLeft => Raycast(transform.TransformDirection(Vector2.left));
-    public RaycastHit2D DirRight => Raycast( transform.TransformDirection(Vector2.right));
+    private RaycastHit2D DirFront => Raycast(transform.up);
+    private RaycastHit2D DirLeft => Raycast(transform.TransformDirection(Vector2.left));
+    private RaycastHit2D DirRight => Raycast( transform.TransformDirection(Vector2.right));
 
     public void OnMove(InputValue value)
     {
@@ -54,7 +54,6 @@ public class Movement : MonoBehaviour
         {
             handleRotation(-turnSpeed);
         }
-      
     }
 
     private void handleRotation(float angle)

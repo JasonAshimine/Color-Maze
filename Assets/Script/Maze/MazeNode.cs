@@ -25,6 +25,8 @@ public class MazeNode : MonoBehaviour
     [SerializeField] private GameObject[] walls;
     [SerializeField] private SpriteRenderer floor;
 
+    public int count = 0;
+
     public void SetState(NodeState state){
         switch (state)
         {
