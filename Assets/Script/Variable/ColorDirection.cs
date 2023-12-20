@@ -30,6 +30,18 @@ namespace Variable
             }
         }
 
+        public ColorIntensity GetColorAll(int index)
+        {
+            switch (index)
+            {
+                case 0: return Top;
+                case 1: return Left;
+                case 2: return Bot;
+                case 3: return Right;
+                default: return Center;
+            }
+        }
+
         public ColorIntensity GetColor(string name)
         {
             switch (name)

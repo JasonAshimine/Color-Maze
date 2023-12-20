@@ -11,9 +11,14 @@ namespace Variable
         public Vector2Int MapSize;
         public GameEventData MazeEvent;
 
+        public GameObject Player;
+        public GameObject EndGoal;
+
         public MazeNode Start { get; set; }
         public MazeNode End { get; set; }
         public List<MazeNode> nodes { get; set; }
+
+        public int max_length;
 
         public ContactFilter2D wallFilter;
         public ContactFilter2D floorFilter;

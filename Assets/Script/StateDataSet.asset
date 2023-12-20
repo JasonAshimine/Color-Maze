@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: StateDataSet
   m_EditorClassIdentifier: 
   _event: {fileID: 11400000, guid: ff3b6ff8ae7137a4db8cdbf298487bcb, type: 2}
-  state: 2
-  previous: 3
+  state: 1
+  previous: 0
   isCancel: 0
+  UnlockedLevel: 0
+  Level: 0
+  LevelList: 0100000002000000030000000400000005000000

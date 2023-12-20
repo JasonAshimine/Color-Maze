@@ -8,7 +8,8 @@ namespace Maze
     public enum MazeEventType
     {
         Clear,
-        Create
+        Create,
+        Start
     }
     public class MazeGenerator : MonoBehaviour
     {
@@ -18,7 +19,7 @@ namespace Maze
         private List<int> _currentPath;
         private List<int> _completedNodes;
 
-        private int max_distance = 0;
+        //private int max_distance = 0;
 
         public void Start()
         {
@@ -58,9 +59,9 @@ namespace Maze
 
         private void updateCount()
         {
-            if (_currentPath.Count > max_distance)
+            if (_currentPath.Count > _MazeData.max_length)
             {
-                max_distance = _currentPath.Count;
+                _MazeData.max_length = _currentPath.Count;
                 _MazeData.Start = _MazeData.nodes[lastCurrent];
             }
         }
@@ -80,7 +81,7 @@ namespace Maze
 
             markAsCurrent(Random.Range(0, _MazeData.nodes.Count));
 
-            max_distance = 0;
+            _MazeData.max_length = 0;
             _MazeData.End = _MazeData.nodes[lastCurrent];
 
 

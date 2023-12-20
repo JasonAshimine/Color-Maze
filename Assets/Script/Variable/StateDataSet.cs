@@ -11,6 +11,11 @@ namespace Variable
         public GameStage previous;
         public bool isCancel;
 
+        public int UnlockedLevel = 0;
+        public int Level = 0;
+
+        public List<Stage> LevelList;
+
         public override void Raise(GameStage data)
         {
             if (data == state)
@@ -39,6 +44,8 @@ namespace Variable
             isCancel = false;
             previous = GameStage.Invalid;
             state = GameStage.Invalid;
+            Level = 0;
+            UnlockedLevel = 0;
         }
     }
 }

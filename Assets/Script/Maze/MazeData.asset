@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc82e8f604e7acf4e85de9435c05364a, type: 3}
   m_Name: MazeData
   m_EditorClassIdentifier: 
-  MapSize: {x: 10, y: 10}
+  MapSize: {x: 2, y: 2}
   MazeEvent: {fileID: 11400000, guid: 6feff3d56009a5040bc481564e284c72, type: 2}
+  Player: {fileID: 0}
+  EndGoal: {fileID: 0}
+  max_length: 4
   wallFilter:
     useTriggers: 0
     useLayerMask: 1

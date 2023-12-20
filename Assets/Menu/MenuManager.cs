@@ -23,6 +23,12 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject SettingMenu;
     [SerializeField] private GameObject colorMenu;
 
+
+    private void Start()
+    {
+        _menuData.Reset();
+    }
+
     private void toggle(Menu type, bool toggle)
     {
         get(type).SetActive(toggle);
@@ -51,6 +57,7 @@ public class MenuManager : MonoBehaviour
                 break;
 
             case Menu.Main:
+                MainMenu.SetActive(true);
                 break;
             case Menu.Setting:
                 SettingMenu.SetActive(true);
@@ -69,6 +76,7 @@ public class MenuManager : MonoBehaviour
                 break;
 
             case Menu.Main:
+                MainMenu.SetActive(false);
                 break;
             case Menu.Setting:
                 SettingMenu.SetActive(false);

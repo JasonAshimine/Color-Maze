@@ -4,15 +4,29 @@ using UnityEngine;
 using Game.Events;
 using Maze;
 using Variable;
+using System;
 
 public enum GameStage
 {
     Invalid,
+    MainMenu,
     Menu,
+    LoadLevel,
     Gameplay,
     EndGame,
     Cancel
 }
+
+public enum Stage 
+{
+    Tutorial,
+    Wall,
+    Goal,
+    Player,
+    SideLight,
+    HardMode
+}
+
 
 public class GameManager : MonoBehaviour
 {
@@ -29,24 +43,23 @@ public class GameManager : MonoBehaviour
     private MenuDataSet _menuData;
 
     [SerializeField]
+    private FadeDataSet _fadeData;
+
+    [SerializeField]
     private StateDataSet _stateData;
 
     [SerializeField]
     private LayerMask _GoalLayer;
 
-    //private GameStage _gameStage = GameStage.Invalid;
-    //private GameStage _previousStage = GameStage.Invalid;
-
-    //public GameStage CurrentStage => _gameStage;
-
     public GameStage EditorDefaultStage = GameStage.Gameplay;
     public GameObject PlayerPrefab;
     public GameObject EndPrefab;
 
-    [SerializeField] Vector2Int MazeSize;
+    [SerializeField] 
+    private Vector2Int MazeSize;
 
-    private GameObject Player;
-    private GameObject EndGoal;
+    [SerializeField]
+    private List<Stage> _levelList;
 
     // Start is called before the first frame update
     void Start()
@@ -55,7 +68,7 @@ public class GameManager : MonoBehaviour
         _stateData.Reset();
         _colorData.Reset();
 
-        GameStage InitialStage = GameStage.Gameplay;
+        GameStage InitialStage = GameStage.MainMenu;
 
         #if UNITY_EDITOR
             InitialStage = EditorDefaultStage;
@@ -77,15 +90,12 @@ public class GameManager : MonoBehaviour
         _lightData.Right    = GetColor(dir.right, index - 1);
 
         _lightData.Raise(LightEventType.Color);
-
-        //Debug.Log(dir.forward.collider.name + " " + Middle);
     }
 
     private ColorIntensity GetColor(RaycastHit2D hit, int index)
     {
         ColorIntensity color =  hit.collider.gameObject.tag == EndPrefab.tag
             ? _colorData.Center : _colorData.GetColor(index);
-
 
         color.intensity = hit.distance;
         return color;
@@ -122,14 +132,21 @@ public class GameManager : MonoBehaviour
 
     public void OnExitStage(GameStage oldGameStage)
     {
-        //Debug.Log("Exit Stage: " + oldGameStage);
+        Debug.Log("Exit Stage: " + oldGameStage);
         switch (oldGameStage)
         {
+            case GameStage.MainMenu:
+                _menuData.Raise(Menu.Main, false);
+                ResumeGame();
+                break;
+
+            case GameStage.LoadLevel:
+                break;
             case GameStage.Gameplay:
                 break;
 
             case GameStage.EndGame:
-                _menuData.Raise(Menu.End, false);
+                _stateData.Raise(GameStage.MainMenu);
                 break;
             case GameStage.Menu:
                 _menuData.Raise(Menu.Setting, false);
@@ -140,21 +157,25 @@ public class GameManager : MonoBehaviour
 
     public void OnEnterStage(GameStage newGameStage)
     {
-        //Debug.Log("Enter Stage: " + newGameStage);
+        Debug.Log("Enter Stage: " + newGameStage);
 
         switch (newGameStage)
         {
-            case GameStage.Gameplay:
+            case GameStage.MainMenu:
+                _menuData.Raise(Menu.Main, true);
+                PauseGame();
+                break;
+
+            case GameStage.LoadLevel:
                 InitStage();
+                _stateData.Raise(GameStage.Gameplay);
+                break;
+
+            case GameStage.Gameplay:                
                 break;
 
             case GameStage.EndGame:
-                ClearStage();
-                _lightData.Left = _colorData.Center;
-                _lightData.Right = _colorData.Center;
-                _lightData.Middle = _colorData.Center;
-                _lightData.Raise(LightEventType.Color);
-                _menuData.Raise(Menu.End, true);
+                EndGameStage();
                 break;
             case GameStage.Menu:
                 _menuData.Raise(Menu.Setting, true);
@@ -167,41 +188,57 @@ public class GameManager : MonoBehaviour
     {
         ClearStage();
         _MazeData.Raise(MazeEventType.Create);
-        
-        Player = Instantiate(PlayerPrefab, _MazeData.Start.transform.position, Quaternion.identity, gameObject.transform);
-        EndGoal = Instantiate(EndPrefab, _MazeData.End.transform.position, Quaternion.identity, gameObject.transform);
+
+        _MazeData.Player = Instantiate(PlayerPrefab, _MazeData.Start.transform.position, Quaternion.identity, gameObject.transform);
+        _MazeData.EndGoal = Instantiate(EndPrefab, _MazeData.End.transform.position, Quaternion.identity, gameObject.transform);
+
+        _MazeData.Raise(MazeEventType.Start);
+    }
+
+    #region
+    private void EndGameStage()
+    {
+        ClearStage();
+        ClearLight();
+
+        if (_stateData.Level == _stateData.UnlockedLevel)
+            _stateData.UnlockedLevel++;
+
+        _menuData.Raise(Menu.Main, true);
     }
 
     private void ClearStage()
     {
-        _MazeData.Raise(MazeEventType.Clear);
-
         foreach (Transform node in transform)
             GameObject.Destroy(node.gameObject);
+
+        _MazeData.Raise(MazeEventType.Clear);
+        _fadeData.Reset();
     }
 
-    void PauseGame()
+    private void ClearLight()
+    {
+        _lightData.Left = _colorData.Center;
+        _lightData.Right = _colorData.Center;
+        _lightData.Middle = _colorData.Center;
+        _lightData.Raise(LightEventType.Color);
+    }
+    #endregion
+
+    #region
+    /// <summary>
+    /// Pause Game via time scale
+    /// </summary>
+
+    private void PauseGame()
     {
         Time.timeScale = 0;
     }
-    void ResumeGame()
+    private void ResumeGame()
     {
         Time.timeScale = 1;
     }
-
-
-    private void togglePlayer(bool state)
-    {
-        SpriteRenderer sp = Player.GetComponent<SpriteRenderer>();
-        sp.enabled = state;
-    }
-
-    private void toggleVisible(GameObject obj,  bool state)
-    {
-        obj.GetComponentInChildren<SpriteRenderer>();
-    }
-
-
+    #endregion
     /// <summary>
     /// Debugging keys commands
     /// </summary>
@@ -212,15 +249,9 @@ public class GameManager : MonoBehaviour
             InitStage();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.Y))
         {
-            _lightData.Raise(LightEventType.ChangeLayer);
-        }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            MazeNode node = _MazeData.get(Player.transform.position);
-            Debug.Log(node.count);
+            _stateData.Raise(GameStage.EndGame);
         }
     }
 }
