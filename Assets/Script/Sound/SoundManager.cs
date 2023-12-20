@@ -30,20 +30,16 @@ public class SoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _soundData.Reset();
         _audioSource = GetComponent<AudioSource>();
         ChangeMusic(_soundData.menuIndex);
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
         if (_soundData.musicLevel.toggle)
         {
             UpdateAudioLevel(_soundData.musicLevel);
-        }
-
-        if(_soundData.musicLevel.toggle != _audioSource.isPlaying)
-        {
-            ToggleMusic();
         }
     }
 
@@ -84,15 +80,10 @@ public class SoundManager : MonoBehaviour
 
     private void ChangeMusic(int index)
     {
-        if (!_soundData.musicLevel.toggle)
-        {
-            return;
-        }
-
         if(index >= 0 && index < _soundList.Count)
         {
-            Debug.Log(_soundList[index]);
             ChangeMusic(_soundList[index]);
+            _soundData.Save();
         }
     }
 

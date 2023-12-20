@@ -108,10 +108,10 @@ public class FadeOutComponent : MonoBehaviour
                 break;
             case Stage.Wall:
                 add("Wall");
+                _background.sortingOrder = 0;
                 break;
             case Stage.SideLight:
-                
-                //TODO
+                //TODO?
                 break;
         }
     }

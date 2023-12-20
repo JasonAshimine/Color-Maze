@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed6726848e1e9745a412889dcba7be1, type: 3}
   m_Name: Center
   m_EditorClassIdentifier: 
-  color: {r: 1, g: 1, b: 1, a: 1}
-  intensity: 0.27556455
+  _defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  color: {r: 1, g: 0.69803923, b: 0, a: 1}
+  intensity: 1

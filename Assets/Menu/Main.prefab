@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1436086039469416608}
   - component: {fileID: 2779779253010296259}
   - component: {fileID: 5955219350548293478}
+  - component: {fileID: 119536111011837501}
   m_Layer: 0
   m_Name: Button (1)
   m_TagString: Untagged
@@ -133,6 +134,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &119536111011837501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958777914101016167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a78dfdafa5ef664e843aa433dbaa9bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 5c70c9e4c6fe45e4bb310bc4dd655ead, type: 2}
+  id: 1
 --- !u!1 &1969397228316395389
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +160,7 @@ GameObject:
   - component: {fileID: 8566340295215377234}
   - component: {fileID: 1793239871907223394}
   - component: {fileID: 7100219602871049444}
+  - component: {fileID: 2961262117997094259}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -266,6 +282,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2961262117997094259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969397228316395389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a78dfdafa5ef664e843aa433dbaa9bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 5c70c9e4c6fe45e4bb310bc4dd655ead, type: 2}
+  id: 0
 --- !u!1 &3406194021495757040
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,6 +308,7 @@ GameObject:
   - component: {fileID: 6276046837290023571}
   - component: {fileID: 2735360272853576755}
   - component: {fileID: 7229948456856221675}
+  - component: {fileID: 8439844848471574448}
   m_Layer: 0
   m_Name: HardMode
   m_TagString: Untagged
@@ -399,6 +430,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8439844848471574448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3406194021495757040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a78dfdafa5ef664e843aa433dbaa9bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 5c70c9e4c6fe45e4bb310bc4dd655ead, type: 2}
+  id: 4
 --- !u!1 &5410451420572904701
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,6 +456,7 @@ GameObject:
   - component: {fileID: 7879565166055123223}
   - component: {fileID: 327630610819459031}
   - component: {fileID: 6682261037840427731}
+  - component: {fileID: 5144586851586943449}
   m_Layer: 0
   m_Name: Button (2)
   m_TagString: Untagged
@@ -532,6 +578,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5144586851586943449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5410451420572904701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a78dfdafa5ef664e843aa433dbaa9bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 5c70c9e4c6fe45e4bb310bc4dd655ead, type: 2}
+  id: 2
 --- !u!1 &5773857643442599057
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,6 +604,7 @@ GameObject:
   - component: {fileID: 217130636883046052}
   - component: {fileID: 5099901099266514689}
   - component: {fileID: 1965146598105167401}
+  - component: {fileID: 4106139600464390602}
   m_Layer: 0
   m_Name: Button (3)
   m_TagString: Untagged
@@ -665,6 +726,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4106139600464390602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5773857643442599057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a78dfdafa5ef664e843aa433dbaa9bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 5c70c9e4c6fe45e4bb310bc4dd655ead, type: 2}
+  id: 3
 --- !u!1 &7579188367285625697
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,6 +753,7 @@ GameObject:
   - component: {fileID: 8063589904062790771}
   - component: {fileID: 1049745199976352275}
   - component: {fileID: 8894976436076536844}
+  - component: {fileID: 2542249544802342622}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -791,3 +867,32 @@ MonoBehaviour:
   - {fileID: 5773857643442599057}
   _hardModeButton: {fileID: 3406194021495757040}
   _colorData: {fileID: 11400000, guid: c2b336bd3a56d564f8acbbdf937032fc, type: 2}
+  _lightData: {fileID: 11400000, guid: e90c13c4363c4e94184290aa2c36daf5, type: 2}
+--- !u!114 &2542249544802342622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7579188367285625697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6ac400fab43ab4493e9cb9ec37e872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 5c70c9e4c6fe45e4bb310bc4dd655ead, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8894976436076536844}
+        m_TargetAssemblyTypeName: MenuEvents, Assembly-CSharp
+        m_MethodName: HandleHover
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

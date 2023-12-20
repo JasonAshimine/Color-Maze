@@ -1,17 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Events;
 
 namespace Variable
 {
     [CreateAssetMenu(fileName = "ColorData", menuName = "Variable/ColorData")]
     public class ColorDirection : ScriptableObject
     {
+        public GameEventData Event;
+
+        [Space()]
         public ColorIntensity Top;
         public ColorIntensity Bot;
         public ColorIntensity Left;
         public ColorIntensity Right;
         public ColorIntensity Center;
+
+        [Space()]
+        public ColorIntensity Default;
+
+        public void Raise()
+        {
+            Event.Raise();
+        }
 
         public ColorIntensity GetColor(int index)
         {
@@ -57,11 +69,33 @@ namespace Variable
 
         public void Reset()
         {
+            Center.Reset();
+            Top.Reset();
+            Bot.Reset();
+            Left.Reset();
+            Right.Reset();
+            Default.Reset();
+        }
+
+        public void HardReset()
+        {
             Center.color = Color.white;
             Top.color = Color.red;
             Bot.color = Color.green;
             Left.color = Color.blue;
             Right.color = Color.yellow;
+        }
+
+
+        public void Save()
+        {
+            Center.Save();
+            Top.Save();
+            Bot.Save();
+            Left.Save();
+            Right.Save();
+
+            PlayerPrefs.Save();
         }
 
     }

@@ -109,6 +109,5 @@ public class MenuManager : MonoBehaviour
         {
             _stateData.Raise(GameStage.Menu);
         }
-        
     }
 }

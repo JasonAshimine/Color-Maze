@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.Events;
+using System;
 
 namespace Variable
 {
@@ -22,6 +23,17 @@ namespace Variable
         public void Stop(AudioClip audio)
         {
 
+        }
+
+        public void Reset()
+        {
+            menuIndex = PlayerPrefs.GetInt("SoundData_MenuIndex", 0);
+        }
+
+        public void Save()
+        {
+            PlayerPrefs.SetInt("SoundData_MenuIndex", menuIndex);
+            PlayerPrefs.Save();
         }
     }
 }

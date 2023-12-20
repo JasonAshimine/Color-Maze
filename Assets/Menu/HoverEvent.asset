@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fed6726848e1e9745a412889dcba7be1, type: 3}
-  m_Name: Bot
+  m_Script: {fileID: 11500000, guid: a1fbf2045272a9349bf1b7d8a076a178, type: 3}
+  m_Name: HoverEvent
   m_EditorClassIdentifier: 
-  _defaultColor: {r: 1, g: 1, b: 0, a: 1}
-  color: {r: 0.45882353, g: 0.14117648, b: 0.6862745, a: 1}
-  intensity: 1

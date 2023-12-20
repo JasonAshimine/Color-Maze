@@ -9,11 +9,19 @@ public class SoundMenuScript : MonoBehaviour
     [SerializeField] private SoundDataSet _soundData;
     [SerializeField] private List<Button> _buttons;
 
+    [SerializeField] private ColorDirection _colorData;
+
     // Start is called before the first frame update
     void Start()
     {
         SetupEvent();
     }
+
+    public void HandleColorChangeEvent(object o)
+    {
+        updateImages();
+    }
+
 
     private void SetupEvent()
     {
@@ -39,17 +47,9 @@ public class SoundMenuScript : MonoBehaviour
         {
             float intensity = (index == _soundData.menuIndex) ? 1f : 0.5f;
             Image image = _buttons[index].GetComponent<Image>();
-            Color color = image.color;
+            Color color = _colorData.GetColorAll(index).color;
             color.a = intensity;
             image.color = color;
         }
     }
-
-
-    public void handleClick()
-    {
-
-    }
-
-
 }

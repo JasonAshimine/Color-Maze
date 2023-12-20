@@ -64,18 +64,17 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameStage InitialStage = GameStage.MainMenu;
+#if UNITY_EDITOR
+        InitialStage = EditorDefaultStage;
+        //AudioSource audio = GameObject.FindAnyObjectByType<AudioSource>();
+        //audio.enabled = false;
+#endif
+
         _MazeData.MapSize = MazeSize;
         _stateData.Reset();
         _colorData.Reset();
-
-        GameStage InitialStage = GameStage.MainMenu;
-
-        #if UNITY_EDITOR
-            InitialStage = EditorDefaultStage;
-            AudioSource audio = GameObject.FindAnyObjectByType<AudioSource>();
-        audio.enabled = false;
-        #endif
-
+        
         _stateData.Raise(InitialStage);     
     }
 
@@ -115,19 +114,17 @@ public class GameManager : MonoBehaviour
 
     public void CancelGameStage()
     {
-        OnExitStage(_stateData.state);
-        GameStage state = _stateData.state;
-        _stateData.state = _stateData.previous;
-        _stateData.previous = state;
+        GameStage stage = _stateData.previous;
+        _stateData.previous = _stateData.state;
+        _stateData.state = stage;
+
+        SetGameStage(stage);
     }
 
     public void SetGameStage(GameStage newGameStage)
     {
-        if (newGameStage != _stateData.previous)
-        {
-            OnExitStage(_stateData.previous);
-            OnEnterStage(newGameStage);
-        }
+        OnExitStage(_stateData.previous);
+        OnEnterStage(newGameStage);
     } 
 
     public void OnExitStage(GameStage oldGameStage)
@@ -162,6 +159,7 @@ public class GameManager : MonoBehaviour
         switch (newGameStage)
         {
             case GameStage.MainMenu:
+                CleanUpGameStage();
                 _menuData.Raise(Menu.Main, true);
                 PauseGame();
                 break;
@@ -177,6 +175,7 @@ public class GameManager : MonoBehaviour
             case GameStage.EndGame:
                 EndGameStage();
                 break;
+
             case GameStage.Menu:
                 _menuData.Raise(Menu.Setting, true);
                 PauseGame();
@@ -198,13 +197,16 @@ public class GameManager : MonoBehaviour
     #region
     private void EndGameStage()
     {
-        ClearStage();
-        ClearLight();
-
         if (_stateData.Level == _stateData.UnlockedLevel)
             _stateData.UnlockedLevel++;
 
-        _menuData.Raise(Menu.Main, true);
+        _stateData.Raise(GameStage.MainMenu);
+    }
+
+    private void CleanUpGameStage()
+    {
+        ClearStage();
+        ClearLight();
     }
 
     private void ClearStage()
@@ -218,10 +220,8 @@ public class GameManager : MonoBehaviour
 
     private void ClearLight()
     {
-        _lightData.Left = _colorData.Center;
-        _lightData.Right = _colorData.Center;
-        _lightData.Middle = _colorData.Center;
-        _lightData.Raise(LightEventType.Color);
+        ColorIntensity color = _colorData.GetColorAll(_stateData.UnlockedLevel);
+        _lightData.SetLights(_colorData.Default);
     }
     #endregion
 
@@ -244,14 +244,21 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && _stateData.state == GameStage.Gameplay)
         {
             InitStage();
         }
 
-        if (Input.GetKeyDown(KeyCode.Y))
+        #if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                _stateData.Raise(GameStage.EndGame);
+            }
+
+        if (Input.GetKeyDown(KeyCode.Delete))
         {
-            _stateData.Raise(GameStage.EndGame);
+            PlayerPrefs.DeleteAll();
         }
+        #endif
     }
 }

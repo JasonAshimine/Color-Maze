@@ -17,6 +17,9 @@ public class MenuEvents : MonoBehaviour
     [SerializeField]
     private ColorDirection _colorData;
 
+    [SerializeField]
+    private LightDataSet _lightData;
+
     private void Start()
     {
         SetUpButtons();
@@ -42,5 +45,23 @@ public class MenuEvents : MonoBehaviour
     {
         _stateData.Level = Level;
         _stateData.Raise(GameStage.LoadLevel);
+    }
+
+
+    public void HandleHover(object Obj)
+    {
+        HoverData data = (HoverData)Obj;
+
+        if (data.toggle)
+        {
+            ColorIntensity color = _colorData.GetColorAll(data.id);
+
+            _lightData.SetLights(color, _colorData.Center, color);
+        }
+        else
+        {
+            _lightData.SetLights(_colorData.Default);
+        }
+        
     }
 }

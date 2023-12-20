@@ -45,7 +45,13 @@ namespace Variable
             previous = GameStage.Invalid;
             state = GameStage.Invalid;
             Level = 0;
-            UnlockedLevel = 0;
+            UnlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 0);
+        }
+
+        public void Save()
+        {
+            PlayerPrefs.SetInt("UnlockedLevel", UnlockedLevel);
+            PlayerPrefs.Save();
         }
     }
 }

@@ -49,6 +49,9 @@ public class ColorMenu : MonoBehaviour
         selected.color = color;
         UpdateColor();
         _lightData.Raise(LightEventType.Color);
+        _colorData.Raise();
+
+        _colorData.Save();
     }
     public void UpdateColor()
     {

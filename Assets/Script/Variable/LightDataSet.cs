@@ -20,6 +20,26 @@ namespace Variable
         public ColorIntensity Right;
 
 
+
+        public void SetLights(ColorIntensity left, ColorIntensity middle, ColorIntensity right)
+        {
+            Left = left;
+            Middle = middle;
+            Right = right;
+            Raise(LightEventType.Color);
+        }
+
+        public void SetLights(ColorIntensity left, ColorIntensity right)
+        {
+            SetLights(left, Middle, right);
+        }
+
+        public void SetLights(ColorIntensity All)
+        {
+            SetLights(All, All, All);
+        }
+
+
         public void Toggle(bool left, bool middle, bool right)
         {
             toggleLeft = left;
