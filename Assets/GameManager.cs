@@ -5,6 +5,8 @@ using Game.Events;
 using Maze;
 using Variable;
 using System;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public enum GameStage
 {
@@ -58,12 +60,15 @@ public class GameManager : MonoBehaviour
     private Vector2Int MazeSize;
 
     [SerializeField]
-    private List<Stage> _levelList;
+    private DepthOfField _PostProcessing;
 
     // Start is called before the first frame update
     void Start()
     {
         GameStage InitialStage = GameStage.MainMenu;
+
+        GameObject.FindAnyObjectByType<Volume>().profile.TryGet<DepthOfField>(out _PostProcessing);
+
 #if UNITY_EDITOR
         //AudioSource audio = GameObject.FindAnyObjectByType<AudioSource>();
         //audio.enabled = false;
@@ -234,10 +239,12 @@ public class GameManager : MonoBehaviour
     private void PauseGame()
     {
         Time.timeScale = 0;
+        _PostProcessing.active = true;
     }
     private void ResumeGame()
     {
         Time.timeScale = 1;
+        _PostProcessing.active = false;
     }
     #endregion
     /// <summary>
