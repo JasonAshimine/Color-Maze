@@ -228,6 +228,7 @@ public class GameManager : MonoBehaviour
     {
         ColorIntensity color = _colorData.GetColorAll(_stateData.UnlockedLevel);
         _lightData.SetLights(_colorData.Default);
+        _lightData.Toggle(true, true);
     }
     #endregion
 
