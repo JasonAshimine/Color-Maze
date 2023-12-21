@@ -16,6 +16,14 @@ namespace Variable
 
         public int menuIndex = 0;
 
+
+        public void SetMusicVolume(float value)
+        {
+            musicLevel.volume = value;
+            musicLevel.Save();
+            Raise(SoundEventType.Volume);
+        }
+
         public void Play(AudioClip audio)
         {
         }
@@ -28,6 +36,8 @@ namespace Variable
         public void Reset()
         {
             menuIndex = PlayerPrefs.GetInt("SoundData_MenuIndex", 0);
+            musicLevel.Reset();
+            soundLevel.Reset();
         }
 
         public void Save()

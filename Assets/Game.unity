@@ -461,6 +461,7 @@ MonoBehaviour:
   _fadeData: {fileID: 11400000, guid: ca8c18ff1b4e8ea41b5a14beb69a21e0, type: 2}
   _stateData: {fileID: 11400000, guid: 9ea2fcb779859674fad2f5ce8fb01b3e, type: 2}
   _lightData: {fileID: 11400000, guid: e90c13c4363c4e94184290aa2c36daf5, type: 2}
+  _soundData: {fileID: 11400000, guid: 3bb2c2cf1b3512a4e9af3eda96e99a35, type: 2}
   _background: {fileID: 310375984}
 --- !u!114 &974528084
 MonoBehaviour:
@@ -761,7 +762,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 19280269760883697, guid: f7f7dcd0d1a87694c84a63ea301c60aa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f7f7dcd0d1a87694c84a63ea301c60aa, type: 3}
 --- !u!1 &1636612309
 GameObject:

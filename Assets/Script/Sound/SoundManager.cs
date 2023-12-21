@@ -36,13 +36,15 @@ public class SoundManager : MonoBehaviour
     private void Awake()
     {
         _soundData.Reset();
+        UpdateVolume();
+        ChangeMainMenuMusic(_soundData.DefaultMusic);
     }
 
     public void FixedUpdate()
     {
         if (_soundData.musicLevel.toggle)
         {
-            UpdateAudioLevel(_soundData.musicLevel);
+            UpdateAudioLevel(_soundData.soundLevel);
         }
     }
 
@@ -54,13 +56,20 @@ public class SoundManager : MonoBehaviour
                 ChangeMusic(_soundData.menuIndex);
                 break;
             case SoundEventType.Volume:
+                UpdateVolume();
                 break;
         }
     }
 
+    private void UpdateVolume()
+    {
+        _audioSource.volume = _soundData.musicLevel.volume;
+        _audioSourceMenu.volume = _soundData.musicLevel.volume;
+    }
+
+
     private void UpdateAudioLevel(AudioLevel level) 
-    { 
-        _audioSource.volume = level.volume;
+    {
         _audioSource.panStereo = CalcPanDirection();
         _audioSource.pitch = level.pitch;
     }
@@ -82,7 +91,7 @@ public class SoundManager : MonoBehaviour
 
     private void ChangeMusic(int index)
     {
-        ChangeMusic(_stateData.LevelList[index].Music);
+        ChangeMainMenuMusic(_stateData.LevelList[index].Music);
     }
 
     public void ChangeLevelMusic(object obj)
@@ -92,36 +101,53 @@ public class SoundManager : MonoBehaviour
         switch (data)
         {
             case GameStage.LoadLevel:
-                ChangeMusic(_stateData.GetLevel().Music);
+                ChangeLevelMusic(_stateData.GetLevel().Music);
                 break;
             case GameStage.MainMenu:
-                ChangeMusic(_soundData.DefaultMusic);
+                PlayMenuMusic();
                 break;
         }
     }
 
-    private void ChangeMusic(AudioClip audioClip)
+    private void PlayMenuMusic()
     {
-        _audioSource.Stop();
-        _audioSource.clip = audioClip;
-        _audioSource.Play();
-    }
-
-    private void ToggleMusic()
-    {
-        if (_soundData.musicLevel.toggle)
-            _audioSource.UnPause();
-        else
-            _audioSource.Pause();
-    }
-
-
-    private void Play(AudioClip source)
-    {
-        if (_soundData.soundLevel.toggle == false)
+        if (_audioSourceMenu.isPlaying)
+        {
             return;
+        }
 
-        if (source != null)
-            _audioSource.PlayOneShot(source, _soundData.soundLevel.volume);
+        PauseMusic();
+        _audioSourceMenu.Play();
+    }
+
+    private void ChangeLevelMusic(AudioClip audioClip)
+    {
+        ChangeMusic(_audioSource, audioClip);
+    }
+
+    private void ChangeMainMenuMusic(AudioClip audioClip)
+    {
+        ChangeMusic(_audioSourceMenu, audioClip);
+    }
+
+
+    private void ChangeMusic(AudioSource source, AudioClip audioClip)
+    {
+        PauseMusic();
+        if (source.clip == audioClip)
+        {
+            source.Play();
+            return;
+        }
+
+        source.Stop();
+        source.clip = audioClip;
+        source.Play();
+    }
+
+    private void PauseMusic()
+    {
+        _audioSource.Pause();
+        _audioSourceMenu.Pause();
     }
 }

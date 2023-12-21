@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: MusicLevel
   m_EditorClassIdentifier: 
   toggle: 1
-  volume: 1
+  volume: 0.25714275
   pitch: 1
   stereoPan: 0

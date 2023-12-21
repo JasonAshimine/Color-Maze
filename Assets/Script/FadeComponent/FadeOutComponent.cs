@@ -10,6 +10,7 @@ public class FadeOutComponent : MonoBehaviour
     [SerializeField] private FadeDataSet _fadeData;
     [SerializeField] private StateDataSet _stateData;
     [SerializeField] private LightDataSet _lightData;
+    [SerializeField] private SoundDataSet _soundData;
 
     [SerializeField] private SpriteRenderer _background;
 
@@ -31,21 +32,20 @@ public class FadeOutComponent : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            getDistance();
-        }
+        float target = Mathf.Lerp(_fadeData.min, _fadeData.max, _fadeData.target);
 
         _fadeData.renderList.ForEach(item => {
             if (item)
             {
                 Color color = item.color;
-                color.a = Mathf.Lerp(_fadeData.min, _fadeData.max, _fadeData.target);
+                color.a = target;
                 item.color = color;
             }            
         });
+
+        _soundData.soundLevel.pitch = Mathf.Lerp(0.95f, 1.05f, _fadeData.target);
     }
 
     private void init()
@@ -137,6 +137,7 @@ public class FadeOutComponent : MonoBehaviour
     private void Reset()
     {
         _fadeData.Reset();
+        _soundData.soundLevel.pitch = 1f;
     }
 
     private int getDistance()
@@ -151,9 +152,9 @@ public class FadeOutComponent : MonoBehaviour
         switch (type)
         {
             case MazeEventType.Create:
-                break;
-            case MazeEventType.Start:
                 Reset();
+                break;
+            case MazeEventType.Start:                
                 init();
                 break;
             case MazeEventType.Clear:
