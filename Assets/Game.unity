@@ -361,7 +361,7 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 7557137852289040027, guid: f7fff0fb6d2f0e346b9ca4ea07842e00, type: 3}
   EndPrefab: {fileID: 3362802199925880881, guid: 739ad63f2ab0eb84887f27d957ed7727, type: 3}
   MazeSize: {x: 5, y: 5}
-  _levelList: 0000000001000000020000000300000004000000
+  _PostProcessing: {fileID: 0}
 --- !u!4 &974528079
 Transform:
   m_ObjectHideFlags: 0
