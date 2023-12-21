@@ -22,12 +22,28 @@ public class MenuEvents : MonoBehaviour
 
     private void Start()
     {
+        SetUpButtonImage();
         SetUpButtons();
     }
 
     private void OnEnable()
     {
         SetUpButtons();
+    }
+
+    private void SetUpButtonImage()
+    {
+        for (int i = 0; i < _buttons.Count; i++)
+        {
+            _buttons[i].GetComponent<Image>().sprite = _stateData.LevelList[i].Sprite;
+        }
+
+        LevelData HardModeData = _stateData.LevelList.Find(i => i.Stage == Stage.HardMode);
+
+        if(HardModeData != null)
+        {
+            _hardModeButton.GetComponent<Image>().sprite = HardModeData.Sprite;
+        }        
     }
 
     private void SetUpButtons()

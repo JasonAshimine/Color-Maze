@@ -24,7 +24,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject colorMenu;
 
 
-    private void Start()
+    private void Awake()
     {
         _menuData.Reset();
     }

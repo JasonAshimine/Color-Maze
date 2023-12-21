@@ -14,7 +14,13 @@ namespace Variable
         public int UnlockedLevel = 0;
         public int Level = 0;
 
-        public List<Stage> LevelList;
+        public List<LevelData> LevelList;
+
+
+        public LevelData GetLevel()
+        {
+            return LevelList[Level];
+        }
 
         public override void Raise(GameStage data)
         {

@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicLevel: {fileID: 11400000, guid: 2d57af12c24d4c54c82458905b077fd0, type: 2}
   soundLevel: {fileID: 11400000, guid: d2064fe7337ccd04188341f27c323530, type: 2}
-  DefaultMusic: {fileID: 0}
+  DefaultMusic: {fileID: 8300000, guid: f5ee21cf8fb714d6492f4bd36526832c, type: 3}
+  menuIndex: 0

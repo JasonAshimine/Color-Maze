@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private LayerMask _GoalLayer;
 
-    public GameStage EditorDefaultStage = GameStage.Gameplay;
     public GameObject PlayerPrefab;
     public GameObject EndPrefab;
 
@@ -66,7 +65,6 @@ public class GameManager : MonoBehaviour
     {
         GameStage InitialStage = GameStage.MainMenu;
 #if UNITY_EDITOR
-        InitialStage = EditorDefaultStage;
         //AudioSource audio = GameObject.FindAnyObjectByType<AudioSource>();
         //audio.enabled = false;
 #endif
@@ -198,7 +196,10 @@ public class GameManager : MonoBehaviour
     private void EndGameStage()
     {
         if (_stateData.Level == _stateData.UnlockedLevel)
+        {
             _stateData.UnlockedLevel++;
+            _stateData.Save();
+        }            
 
         _stateData.Raise(GameStage.MainMenu);
     }

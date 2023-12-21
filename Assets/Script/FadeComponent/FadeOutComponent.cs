@@ -50,12 +50,12 @@ public class FadeOutComponent : MonoBehaviour
 
     private void init()
     {
-        List<Stage> LevelList = _stateData.LevelList;
+        List<LevelData> LevelList = _stateData.LevelList;
         int Level = _stateData.Level;
 
         for(int i = 0; i < LevelList.Count; i++)
         {
-            Stage stage = LevelList[i];
+            Stage stage = LevelList[i].Stage;
             if (i < Level)
             {
                 Toggle(stage, false);
@@ -73,7 +73,6 @@ public class FadeOutComponent : MonoBehaviour
 
     private void Toggle(Stage stage, bool isShow = true)
     {
-        Debug.Log(stage + " " + isShow);
         switch (stage)
         {
             case Stage.Player:

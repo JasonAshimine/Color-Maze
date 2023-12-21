@@ -16,12 +16,26 @@ namespace Variable
 
         public MazeNode Start { get; set; }
         public MazeNode End { get; set; }
-        public List<MazeNode> nodes { get; set; }
+        public List<MazeNode> nodes;
 
         public int max_length;
 
         public ContactFilter2D wallFilter;
         public ContactFilter2D floorFilter;
+        private void Clear()
+        {
+            if (nodes == null || nodes.Count <= 0)
+                return;
+
+            foreach (MazeNode node in nodes)
+            {
+                if(node != null)
+                    GameObject.Destroy(node.gameObject);
+            }               
+
+            nodes.Clear();
+        }
+
 
         public MazeNode get(Vector2 position)
         {
@@ -34,20 +48,23 @@ namespace Variable
             return nodes[index];
         }
 
-        public void clear()
-        {
-            if (nodes.Count <= 0)
-                return;
-
-            foreach (MazeNode node in nodes)
-                GameObject.Destroy(node.gameObject);
-
-            nodes.Clear();
-        }
-
         public void Raise(Maze.MazeEventType data)
         {
             MazeEvent.Raise(data);
+        }
+
+        public void Reset()
+        {
+            Clear();
+            max_length = 0;
+            Start = null;
+            End = null;
+
+            if (Player != null)
+                GameObject.Destroy(Player);
+
+            if (EndGoal != null)
+                GameObject.Destroy(EndGoal);
         }
     }
 }

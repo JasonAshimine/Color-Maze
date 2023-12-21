@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _event: {fileID: 11400000, guid: ff3b6ff8ae7137a4db8cdbf298487bcb, type: 2}
   state: 1
-  previous: 0
+  previous: 2
   isCancel: 0
-  UnlockedLevel: 0
-  Level: 0
-  LevelList: 0100000002000000030000000400000005000000
+  UnlockedLevel: 3
+  Level: 2
+  LevelList:
+  - {fileID: 11400000, guid: 388fccac1a390de4d92036771efd7e08, type: 2}
+  - {fileID: 11400000, guid: c939e91fd00aabe43b64c8f4bd861d7a, type: 2}
+  - {fileID: 11400000, guid: ab88e6a41ce51b540b7418885e487076, type: 2}
+  - {fileID: 11400000, guid: 38b6409aae869a14bb67879b576cdcb7, type: 2}
+  - {fileID: 11400000, guid: 7c30919ae2601f74b8efa553e5782138, type: 2}

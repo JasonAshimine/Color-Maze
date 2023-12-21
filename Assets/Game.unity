@@ -358,7 +358,6 @@ MonoBehaviour:
   _GoalLayer:
     serializedVersion: 2
     m_Bits: 128
-  EditorDefaultStage: 1
   PlayerPrefab: {fileID: 7557137852289040027, guid: f7fff0fb6d2f0e346b9ca4ea07842e00, type: 3}
   EndPrefab: {fileID: 3362802199925880881, guid: 739ad63f2ab0eb84887f27d957ed7727, type: 3}
   MazeSize: {x: 5, y: 5}
@@ -559,17 +558,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1495456617 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5377750006857082121, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-  m_PrefabInstance: {fileID: 3590877336480864959}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e25ae3fb360a1c44b92f1040fa1ac36d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1554807346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1064,54 +1052,6 @@ PrefabInstance:
     - target: {fileID: 1350671262690315692, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
       propertyPath: m_Name
       value: SoundManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 2929009386818868605, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5377750006857082121, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-      propertyPath: _soundList.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5377750006857082121, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-      propertyPath: _soundList.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: f5ee21cf8fb714d6492f4bd36526832c, type: 3}
-    - target: {fileID: 5377750006857082121, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-      propertyPath: _soundList.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: 6cb9ff74a536944baab35afe99fc17ba, type: 3}
-    - target: {fileID: 5377750006857082121, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-      propertyPath: _soundList.Array.data[2]
-      value: 
-      objectReference: {fileID: 8300000, guid: aad7a7fba16964d45be7c4ebe62a3ae1, type: 3}
-    - target: {fileID: 5377750006857082121, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-      propertyPath: _soundList.Array.data[3]
-      value: 
-      objectReference: {fileID: 8300000, guid: 42088c686d43445edba06281e324ee8d, type: 3}
-    - target: {fileID: 5377750006857082121, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-      propertyPath: _soundList.Array.data[4]
-      value: 
-      objectReference: {fileID: 8300000, guid: 1ecbc4ca893514424b3b391184d00869, type: 3}
-    - target: {fileID: 6481085282167759418, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6481085282167759418, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1495456617}
-    - target: {fileID: 6481085282167759418, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HandleEvent
-      objectReference: {fileID: 0}
-    - target: {fileID: 6481085282167759418, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SoundManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6481085282167759418, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
-      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8806528979377490926, guid: d276e8416a546e04a88d05c1f88d50e6, type: 3}
       propertyPath: m_RootOrder

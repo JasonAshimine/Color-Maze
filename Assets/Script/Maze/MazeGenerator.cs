@@ -21,11 +21,9 @@ namespace Maze
 
         //private int max_distance = 0;
 
-        public void Start()
+        public void Awake()
         {
-            _MazeData.nodes.Clear();
-            _MazeData.Start = null;
-            _MazeData.End = null;
+            _MazeData.Reset();
         }
 
         public void handleEvent(object data)
@@ -36,7 +34,7 @@ namespace Maze
                     Generator(_MazeData.MapSize);
                     break;
                 case MazeEventType.Clear:
-                    _MazeData.clear();
+                    _MazeData.Reset();
                     break;
             }
         }

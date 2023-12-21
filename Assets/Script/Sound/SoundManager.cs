@@ -15,7 +15,9 @@ public class SoundManager : MonoBehaviour
 {
     [SerializeField] private SoundDataSet _soundData;
     [SerializeField] private LightDataSet _lightData;
-    [SerializeField] private List<AudioClip> _soundList;
+    //[SerializeField] private List<AudioClip> _soundList;
+
+    [SerializeField] private StateDataSet _stateData;
 
     [SerializeField, Range(0f, 1f)] 
     private float _panMax = 0.8f;
@@ -25,14 +27,15 @@ public class SoundManager : MonoBehaviour
     [SerializeField, Range(0f, 2f)]
     private float _frontMax;*/
 
+    [SerializeField]
+    private AudioSource _audioSourceMenu;
+
+    [SerializeField]
     private AudioSource _audioSource;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         _soundData.Reset();
-        _audioSource = GetComponent<AudioSource>();
-        ChangeMusic(_soundData.menuIndex);
     }
 
     public void FixedUpdate()
@@ -45,7 +48,6 @@ public class SoundManager : MonoBehaviour
 
     public void HandleEvent(object data)
     {
-        Debug.Log((SoundEventType)data);
         switch ((SoundEventType)data) 
         {
             case SoundEventType.Music:
@@ -80,10 +82,21 @@ public class SoundManager : MonoBehaviour
 
     private void ChangeMusic(int index)
     {
-        if(index >= 0 && index < _soundList.Count)
+        ChangeMusic(_stateData.LevelList[index].Music);
+    }
+
+    public void ChangeLevelMusic(object obj)
+    {
+        GameStage data = (GameStage)obj;
+
+        switch (data)
         {
-            ChangeMusic(_soundList[index]);
-            _soundData.Save();
+            case GameStage.LoadLevel:
+                ChangeMusic(_stateData.GetLevel().Music);
+                break;
+            case GameStage.MainMenu:
+                ChangeMusic(_soundData.DefaultMusic);
+                break;
         }
     }
 
