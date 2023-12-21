@@ -20,6 +20,15 @@ public class MenuEvents : MonoBehaviour
     [SerializeField]
     private LightDataSet _lightData;
 
+    [SerializeField]
+    private SoundDataSet _soundData;
+
+    [SerializeField]
+    private float _pitchHoverValue = 1.05f;
+
+    [SerializeField]
+    private float _pitchHardModeHoverValue = 0.95f;
+
     private void Start()
     {
         SetUpButtonImage();
@@ -70,14 +79,40 @@ public class MenuEvents : MonoBehaviour
 
         if (data.toggle)
         {
-            ColorIntensity color = _colorData.GetColorAll(data.id);
-
-            _lightData.SetLights(color, _colorData.Center, color);
+            HandleEnter(data);
         }
         else
         {
-            _lightData.SetLights(_colorData.Default);
+            HandleExit(data);
         }
         
+    }
+
+    private void HandleEnter(HoverData data)
+    {
+        bool isHardLevel = _stateData.LevelList[data.id].Stage == Stage.HardMode;
+
+        if(isHardLevel)
+        {
+            _soundData.SetMusicPitch(_pitchHardModeHoverValue);
+            _lightData.Toggle(false, false);
+        }
+        else
+        {
+            _soundData.SetMusicPitch(_pitchHoverValue);
+            ColorIntensity color = _colorData.GetColorAll(data.id);
+            _lightData.SetLights(color, _colorData.Center, color);
+        }        
+    }
+
+    private void HandleExit(HoverData data)
+    {
+        _soundData.SetMusicPitch(1f);
+        _lightData.SetLights(_colorData.Default);
+
+        if (_stateData.LevelList[data.id].Stage == Stage.HardMode)
+        {
+            _lightData.Toggle(true, true);
+        }
     }
 }

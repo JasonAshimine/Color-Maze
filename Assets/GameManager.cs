@@ -250,16 +250,18 @@ public class GameManager : MonoBehaviour
             InitStage();
         }
 
-        #if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                _stateData.Raise(GameStage.EndGame);
-            }
-
         if (Input.GetKeyDown(KeyCode.Delete))
         {
             PlayerPrefs.DeleteAll();
         }
+
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Y))
+            {
+                _stateData.Raise(GameStage.EndGame);
+            }
+
+        
         #endif
     }
 }

@@ -19,9 +19,20 @@ namespace Variable
 
         public void SetMusicVolume(float value)
         {
+            if (musicLevel.volume == value)
+                return;
+
             musicLevel.volume = value;
             musicLevel.Save();
             Raise(SoundEventType.Volume);
+        }
+
+        public void SetMusicPitch(float value)
+        {
+            if (value == musicLevel.pitch)
+                return;
+            musicLevel.pitch = value;
+            Raise(SoundEventType.Pitch);
         }
 
         public void Play(AudioClip audio)

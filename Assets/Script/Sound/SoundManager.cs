@@ -7,7 +7,8 @@ using Variable;
 public enum SoundEventType 
 {
     Music,
-    Volume
+    Volume,
+    Pitch
 }
 
 
@@ -58,6 +59,9 @@ public class SoundManager : MonoBehaviour
             case SoundEventType.Volume:
                 UpdateVolume();
                 break;
+            case SoundEventType.Pitch:
+                UpdatePitch();
+                break;
         }
     }
 
@@ -65,6 +69,12 @@ public class SoundManager : MonoBehaviour
     {
         _audioSource.volume = _soundData.musicLevel.volume;
         _audioSourceMenu.volume = _soundData.musicLevel.volume;
+    }
+
+    private void UpdatePitch()
+    {
+        _audioSource.pitch = _soundData.soundLevel.pitch;
+        _audioSourceMenu.pitch = _soundData.musicLevel.pitch;
     }
 
 

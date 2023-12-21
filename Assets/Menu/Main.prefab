@@ -868,6 +868,8 @@ MonoBehaviour:
   _hardModeButton: {fileID: 3406194021495757040}
   _colorData: {fileID: 11400000, guid: c2b336bd3a56d564f8acbbdf937032fc, type: 2}
   _lightData: {fileID: 11400000, guid: e90c13c4363c4e94184290aa2c36daf5, type: 2}
+  _soundData: {fileID: 11400000, guid: 3bb2c2cf1b3512a4e9af3eda96e99a35, type: 2}
+  _pitchHoverValue: 0.95
 --- !u!114 &2542249544802342622
 MonoBehaviour:
   m_ObjectHideFlags: 0
