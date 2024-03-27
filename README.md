@@ -1,5 +1,4 @@
 # Color-Maze
-Prototype for Color game
 
 Play on Itch.io: https://jyama.itch.io/color-maze
 
